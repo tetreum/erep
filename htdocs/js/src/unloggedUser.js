@@ -8,17 +8,17 @@ peque.unloggedUser = function ()
             e.preventDefault();
 
             var $loginContainer = $('#login-container'),
-                username = $loginContainer.find('[name="username"]').val(),
+                email = $loginContainer.find('[name="email"]').val(),
                 password = $loginContainer.find('[name="password"]').val();
 
-            if (username == "" || password == "") {
+            if (email == "" || password == "") {
                 return false;
             }
             $loginContainer.find(".error").hide();
 
             // Do not point this to peque.navigation.post|peque.api as they attempt to fix
             // errors like failed authentication (causing a loop to login)
-            $.post("/login", {username: username, password: password}, function (data)
+            $.post("/login", {email: email, password: password}, function (data)
             {
                 if (data == "" || data.error > 0) {
                     $loginContainer.find(".error").show();
@@ -49,12 +49,13 @@ peque.unloggedUser = function ()
                 country : parseInt($container.find('[name="country"]').val()),
                 terms : $container.find('[name="terms"]').is(":checked")
             };
-console.log(data);
+
             if (data.username == "" || data.password == "" || data.password2 == "" || data.email == "" || !data.terms || data.country == 0) {
                 return false;
             }
 
             $container.find(".invalid-field").removeClass("invalid-field");
+            $container.find(".error").hide();
 
             if (data.password != data.password2) {
                 console.log("block");

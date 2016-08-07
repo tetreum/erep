@@ -9,7 +9,7 @@
             <input name="email" type="email" placeholder="{% trans %}email{% endtrans %}" required>
             <input name="password" type="password" placeholder="*******" required>
             <input name="password2" type="password" placeholder="*******" required>
-            <input name="referred" type="hidden" value="{{ referrer }}">
+            <input name="referrer" type="hidden" value="{{ referrer }}">
             <select class="new-line" name="country">
                     <option value="0">{% trans %}Choose your country{% endtrans %}</option>
                     <option value="1">Albania</option>
@@ -91,6 +91,7 @@
             <label><input type="checkbox" name="terms">{% trans %}I accept the terms & conditions of this service{% endtrans %}</label>
             <br>
             <button>{% trans %}Signup{% endtrans %}</button>
+            <div class="error">{% trans %}Invalid data{% endtrans %}</div>
         </form>
     </div>
 {% endblock %}

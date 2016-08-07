@@ -9,6 +9,8 @@ class User extends Model
     const STATUS_BANNED = 2;
     const STATUS_ACTIVATED = 1;
     const STATUS_PENDING = 0;
+    const MIN_PASSWORD_LENGTH = 7;
 
-    protected $dates = ['creation_date'];
+    protected $fillable = ["email", "nick", "password", "status", "country", "referrer", "xp", "level"];
+
 }

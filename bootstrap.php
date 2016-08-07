@@ -71,7 +71,7 @@ $app->add(function ($request, $response, $next) use ($app) {
     $view = App::container()->get("view");
     $view->getEnvironment()->addGlobal('isAjax', $app->isAjax);
 
-    //$response = $next($request, $response);
+    //$response = $next($request, $response);return $response;
     try {
         $response = $next($request, $response);
     } catch (\Exception $e)
