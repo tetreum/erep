@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Money;
 use App\System\App;
 use App\System\AppException;
 use App\System\Controller;
@@ -55,7 +56,12 @@ class User extends Controller
         $data["status"] = UserModel::STATUS_ACTIVATED;
 
         try {
-            UserModel::create($data);
+            $user = UserModel::create($data);
+
+            // create user's entry in money db
+            Money::create([
+                "uid" => $user["id"]
+            ]);
         } catch (\Exception $e) {
             throw new AppException(AppException::ACTION_FAILED);
         }
@@ -102,7 +108,7 @@ class User extends Controller
             throw new AppException(AppException::INVALID_DATA);
         }
 
-        $this->app->getContainer()->get("session")->fillUserData($user);
+        App::session()->fillUserData($user->toArray());
 
         $response = new \stdClass();
         $response->error = 0;

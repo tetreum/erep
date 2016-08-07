@@ -1,3 +1,7 @@
+body {
+  background: #0f3246;
+}
+
 #global-loader {
   display: none;
   height: 4px;
@@ -35,6 +39,8 @@ $linkColor: #00abff;
 
 #wrapper {
   display: flex;
+  background: #f9f9f9;
+  height: 100vh;
 }
 
 #left-column {

@@ -9,4 +9,6 @@ class Money extends Model
     protected $table = "money";
 
     protected $fillable = ["uid", "gold"];
+
+    public $timestamps = false;
 }

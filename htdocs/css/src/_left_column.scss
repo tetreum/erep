@@ -1,3 +1,33 @@
 .avatar {
   border: 2px solid #dfdfdf;
 }
+
+#left-menu {
+  padding: 10px;
+}
+.profile-section {
+  display: flex;
+}
+
+#max-health::-webkit-progress-bar {
+  background-color: #eee;
+}
+#max-health::-webkit-progress-value {
+  background: #a7d8a7;
+}
+#max-health[value] {
+  background: #a7d8a7;
+}
+
+progress[value]::-webkit-progress-bar {
+
+  background:
+          linear-gradient(
+                          to right,
+                          red 33%,
+                          rgba(0,0,0,0) 33%,
+                          rgba(0,0,0,0) 66%,
+                          yellow 66%,
+                          yellow 100%);
+
+}

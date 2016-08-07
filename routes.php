@@ -42,6 +42,11 @@ $app->post('/signup', function($request, $response, $args) use ($app) {
     $ct->json('signup');
 });
 
+$app->get('/work-offers', function($request, $response, $args) use ($app) {
+    $ct = new WorkOffers($app, $response);
+    $ct->exec('showList');
+});
+
 
 /**
  * API calls, all outputs are expected to be JSON & formatted like:

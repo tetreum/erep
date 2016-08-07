@@ -2,6 +2,8 @@
 
 namespace App\System;
 
+use App\Models\Money;
+
 class Session
 {
     private $app;
@@ -89,6 +91,14 @@ class Session
         }
 
         return $_SESSION['user'];
+    }
+
+    /**
+     * Gets user's money
+     * @return mixed
+     */
+    public function getMoney () {
+        return Money::where("uid", $this->getUser()["uid"]);
     }
 
     /**

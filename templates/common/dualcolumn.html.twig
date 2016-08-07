@@ -2,9 +2,37 @@
     <div id="wrapper">
         <div id="left-column">
             <h2>eRepublik</h2>
-            <div>
-                <img class="avatar" src="https://thumbs.dreamstime.com/z/persona-casual-del-retrato-masculino-del-avatar-del-icono-del-perfil-46846328.jpg">
-                {{ me.country }} {{ me.nick }}
+            <div id="left-menu">
+                <div class="profile-section">
+                    <div style="flex: 0 0 20%;">
+                        <img class="avatar" src="https://thumbs.dreamstime.com/z/persona-casual-del-retrato-masculino-del-avatar-del-icono-del-perfil-46846328.jpg">
+                    </div>
+                    <div  style="flex: 0 0 81%;">
+                        <a href=""><strong>{{ my.nick }}</strong></a>
+                        <br>
+                        <br>
+                        <button><i class="fa fa-envelope-o"></i></button>
+                        <button><i class="fa fa-bell-o"></i></button>
+                    </div>
+                </div>
+                <div>
+                    <ul>
+                        <li>
+                            <img class="mini-flag" src="https://www.erevollution.com/public/game/flags/flat/{{ my.country }}/Spain.png"> Spain, Alicante
+                        </li>
+                        <li>
+                            <img src="https://www.erevollution.com/public/game/icons/gold-icon-s.png"> Gold: {{ my.money.gold }}
+                        </li>
+                        <li>
+                            <img class="mini-flag" src="https://www.erevollution.com/public/game/flags/flat/{{ my.country }}/Spain.png"> ESP {{ my.money.esp }}
+                        </li>
+                        <li>
+                            <progress id="max-health" value="70" max="100" style="position: absolute;"></progress>
+                            <progress value="40" max="100" style="position: absolute;    background: transparent;"></progress>
+                        </li>
+                    </ul>
+
+                </div>
             </div>
         </div>
 

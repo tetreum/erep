@@ -113,4 +113,11 @@ class App
     public static function container () {
         return App::getInstance()->getContainer();
     }
+
+    /**
+     * @return Session
+     */
+    public static function session () {
+        return self::container()->get("session");
+    }
 }
