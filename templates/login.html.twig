@@ -1,0 +1,25 @@
+{% set noDualColumn = true %}
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+    <div id="login-wrapper">
+        <h1 class="logo">eRepulik</h1>
+        <div id="login-container" class="box">
+            <form method="post">
+                <h3>{% trans %}Welcome{% endtrans %}</h3>
+                <input name="email" type="email" placeholder="{% trans %}username{% endtrans %}" required>
+                <input name="password" type="password" placeholder="*******" required>
+                <button>{% trans %}Login{% endtrans %}</button>
+                <div class="error">{% trans %}Unauthorized{% endtrans %}</div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bottomJS %}
+    <script>
+        $(function () {
+            peque.login.init();
+        });
+    </script>
+{% endblock %}

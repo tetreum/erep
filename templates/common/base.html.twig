@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>eRepublik</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" />
+    <link rel="stylesheet" href="/css/built.css" />
+    <link rel="icon" href="/img/favicon.png">
+    <script>
+        var peque = {};
+    </script>
+</head>
+<body>
+
+{% if noDualColumn %}
+    {{ block('content') }}
+{% else %}
+    {% use "common/dualcolumn.html.twig" %}
+    {{ block('dualColumn') }}
+{% endif %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<script src="/js/built.js"></script>
+
+<div id="global-loader"></div>
+{% block bottomJS %}
+{% endblock %}
+</body>
+</html>
