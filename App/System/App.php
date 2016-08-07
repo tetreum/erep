@@ -113,36 +113,4 @@ class App
     public static function container () {
         return App::getInstance()->getContainer();
     }
-
-    /**
-     * Get latest Mongo.lo version available
-     * @return array
-     */
-    public static function info ()
-    {
-        try {
-            $latest = json_decode(@file_get_contents("https://cdn.rawgit.com/tetreum/mongolo/master/version.json"));
-            if ($latest == null) {
-                throw new \Exception("failed to fetch");
-            }
-        } catch (\Exception $e) {
-            $latest = new \stdClass();
-            $latest->version = "failed to fetch";
-        }
-
-        return [
-            "current" => self::CURRENT_VERSION,
-            "latest" => $latest
-        ];
-    }
-
-    /***
-     * 1. Download the zipped version
-     * 2. Unzip it in /tmp/
-     * 3. Check in /migration/ folder if there is a file to execute for this upgrade, ex: 0_1-to-0_2.php
-     * 4. Move /tmp/ folder to current path
-     */
-    public function upgrade () {
-    }
-
 }

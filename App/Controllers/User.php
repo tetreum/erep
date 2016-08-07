@@ -5,19 +5,52 @@ namespace App\Controllers;
 use App\System\App;
 use App\System\AppException;
 use App\System\Controller;
+use \App\Models\User as UserModel;
 
 class User extends Controller
 {
+    private function redirectLoggedUsers ()
+    {
+        if ($this->isLogged) {
+            App::redirect($this->app->getContainer()->get('router')->pathFor('home'));
+            exit;
+        }
+    }
+
+    public function showSignup ()
+    {
+        $this->redirectLoggedUsers();
+
+        $referrer = (int)$_GET["referrer"];
+
+        return $this->render('signup.html.twig', [
+            "referred" => $referrer
+        ]);
+    }
+
+    /**
+     * Do user signup
+     * @return \stdClass
+     * @throws AppException
+     */
+    public function doSignup ()
+    {
+        $email = strip_tags($_POST["email"]);
+        $password = $_POST["password"];
+        $referred = (int)$_POST["referred"];
+
+        if (empty($email) || empty($password)) {
+            throw new AppException(AppException::INVALID_DATA);
+        }
+    }
+
     /**
      * Show login page
      * @return mixed
      */
     public function showLogin ()
     {
-        if ($this->isLogged) {
-            App::redirect($this->app->getContainer()->get('router')->pathFor('home'));
-            exit;
-        }
+        $this->redirectLoggedUsers();
 
         return $this->render('login.html.twig');
     }
@@ -29,20 +62,24 @@ class User extends Controller
      */
     public function doLogin ()
     {
-        $user = strip_tags($_POST["username"]);
-        $password = strip_tags($_POST["password"]);
+        $email = strip_tags($_POST["email"]);
+        $password = $_POST["password"];
 
-        if (empty($user) || empty($password)) {
+        if (empty($email) || empty($password)) {
             throw new AppException(AppException::INVALID_DATA);
         }
 
-        $settings = $this->app->getContainer()->get("settings");
+        $user = UserModel::where([
+            "email" => $email,
+            "password" => md5($this->app->getContainer()->get("settings")["password_hash"] . $password),
+            "status" => UserModel::STATUS_ACTIVATED,
+        ])->first();
 
-        if (isset($settings["local_auth"])) {
-            $this->app->getContainer()->get("session")->fillUserData($user);
-        } else {
-            $this->app->getContainer()->get("session")->fillUserData($user, $password);
+        if (empty($user)) {
+            throw new AppException(AppException::INVALID_DATA);
         }
+
+        $this->app->getContainer()->get("session")->fillUserData($user);
 
         $response = new \stdClass();
         $response->error = 0;

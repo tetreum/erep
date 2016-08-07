@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class User extends Model
+{
+    const STATUS_BANNED = 2;
+    const STATUS_ACTIVATED = 1;
+    const STATUS_PENDING = 0;
+
+    protected $dates = ['creation_date'];
+}

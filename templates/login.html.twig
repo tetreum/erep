@@ -2,16 +2,19 @@
 {% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
 
 {% block content %}
+    <div class="background-image"></div>
     <div id="login-wrapper">
-        <h1 class="logo">eRepulik</h1>
+        <h1 class="logo">eRepublik</h1>
         <div id="login-container" class="box">
             <form method="post">
-                <h3>{% trans %}Welcome{% endtrans %}</h3>
+                <h3>{% trans %}Welcome back, citizen{% endtrans %}</h3>
                 <input name="email" type="email" placeholder="{% trans %}username{% endtrans %}" required>
                 <input name="password" type="password" placeholder="*******" required>
                 <button>{% trans %}Login{% endtrans %}</button>
-                <div class="error">{% trans %}Unauthorized{% endtrans %}</div>
+                <div class="error">{% trans %}Invalid login data{% endtrans %}</div>
             </form>
+            <a href="#">{% trans %}Recover password{% endtrans %}</a>
+            <a href="{{ path_for('signup') }}">{% trans %}Signup{% endtrans %}</a>
         </div>
     </div>
 {% endblock %}
@@ -19,7 +22,7 @@
 {% block bottomJS %}
     <script>
         $(function () {
-            peque.login.init();
+            peque.unloggedUser.loginInit();
         });
     </script>
 {% endblock %}

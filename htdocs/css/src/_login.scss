@@ -1,0 +1,51 @@
+#login-wrapper, #signup-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: white;
+}
+
+#login-container {
+  text-align: center;
+  display: inline-block;
+  margin-top: 10vh;
+}
+
+#login-container input, #signup-wrapper input:not([type='checkbox']), .new-line {
+  display: block;
+  margin-bottom: 10px;
+  height: 30px;
+}
+
+#login-container .error {
+  display: none;
+}
+
+.logo {
+  margin-top: 10vh;
+  text-align: center;
+}
+
+.error {
+  color: red;
+}
+.invalid-field {
+  border-color: red;
+}
+
+.background-image {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100vh;
+  background: url(http://p1.pichost.me/i/34/1569306.jpg);
+
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}

@@ -1,0 +1,104 @@
+{% set noDualColumn = true %}
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+    <div id="signup-wrapper">
+        <h3>{% trans %}Signup{% endtrans %}</h3>
+        <form method="post">
+            <input name="username" type="text" placeholder="{% trans %}username{% endtrans %}" required>
+            <input name="email" type="email" placeholder="{% trans %}email{% endtrans %}" required>
+            <input name="password" type="password" placeholder="*******" required>
+            <input name="password2" type="password" placeholder="*******" required>
+            <input name="referred" type="hidden" value="{{ referrer }}">
+            <select class="new-line" name="country">
+                    <option value="0">{% trans %}Choose your country{% endtrans %}</option>
+                    <option value="1">Albania</option>
+                    <option value="2">Argentina</option>
+                    <option value="3">Armenia</option>
+                    <option value="4">Australia</option>
+                    <option value="5">Austria</option>
+                    <option value="6">Belarus</option>
+                    <option value="7">Belgium</option>
+                    <option value="8">Bolivia</option>
+                    <option value="9">Bosnia and Herzegovina</option>
+                    <option value="10">Brazil</option>
+                    <option value="11">Bulgaria</option>
+                    <option value="12">Canada</option>
+                    <option value="13">Chile</option>
+                    <option value="14">China</option>
+                    <option value="15">Colombia</option>
+                    <option value="16">Croatia</option>
+                    <option value="17">Cuba</option>
+                    <option value="18">Cyprus</option>
+                    <option value="19">Czech Republic</option>
+                    <option value="20">Denmark</option>
+                    <option value="21">Egypt</option>
+                    <option value="22">Estonia</option>
+                    <option value="23">Finland</option>
+                    <option value="24">France</option>
+                    <option value="25">Georgia</option>
+                    <option value="26">Germany</option>
+                    <option value="27">Greece</option>
+                    <option value="28">Hungary</option>
+                    <option value="29">India</option>
+                    <option value="30">Indonesia</option>
+                    <option value="31">Iran</option>
+                    <option value="32">Ireland</option>
+                    <option value="33">Israel</option>
+                    <option value="34">Italy</option>
+                    <option value="35">Japan</option>
+                    <option value="36">Latvia</option>
+                    <option value="37">Lithuania</option>
+                    <option value="38">Malaysia</option>
+                    <option value="39">Mexico</option>
+                    <option value="40">Montenegro</option>
+                    <option value="41">Netherlands</option>
+                    <option value="42">New Zealand</option>
+                    <option value="43">Nigeria</option>
+                    <option value="44">North Korea</option>
+                    <option value="45">Norway</option>
+                    <option value="46">Pakistan</option>
+                    <option value="47">Paraguay</option>
+                    <option value="48">Peru</option>
+                    <option value="49">Philippines</option>
+                    <option value="50">Poland</option>
+                    <option value="51">Portugal</option>
+                    <option value="52">Republic of China (Taiwan)</option>
+                    <option value="53">Republic of Macedonia (FYROM)</option>
+                    <option value="54">Republic of Moldova</option>
+                    <option value="55">Romania</option>
+                    <option value="56">Russia</option>
+                    <option value="57">Saudi Arabia</option>
+                    <option value="58">Serbia</option>
+                    <option value="59">Singapore</option>
+                    <option value="60">Slovakia</option>
+                    <option value="61">Slovenia</option>
+                    <option value="62">South Africa</option>
+                    <option value="63">South Korea</option>
+                    <option value="64">Spain</option>
+                    <option value="65">Sweden</option>
+                    <option value="66">Switzerland</option>
+                    <option value="67">Thailand</option>
+                    <option value="68">Turkey</option>
+                    <option value="69">Ukraine</option>
+                    <option value="70">United Arab Emirates</option>
+                    <option value="71">United Kingdom</option>
+                    <option value="73">United States of America</option>
+                    <option value="72">Uruguay</option>
+                    <option value="74">Venezuela</option>
+            </select>
+
+            <label><input type="checkbox" name="terms">{% trans %}I accept the terms & conditions of this service{% endtrans %}</label>
+            <br>
+            <button>{% trans %}Signup{% endtrans %}</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block bottomJS %}
+    <script>
+        $(function () {
+            peque.unloggedUser.signupInit();
+        });
+    </script>
+{% endblock %}

@@ -53,6 +53,16 @@ $container['view'] = function ($container) {
     return $view;
 };
 
+$container['db'] = function ($container) {
+    $capsule = new \Illuminate\Database\Capsule\Manager;
+    $capsule->addConnection($container['settings']['mysql']);
+
+    $capsule->setAsGlobal();
+    $capsule->bootEloquent();
+
+    return $capsule;
+};
+
 /*
  * Add some global vars before rendering each template
  */
@@ -80,3 +90,4 @@ $app->add(function ($request, $response, $next) use ($app) {
 
     return $response;
 });
+App::container()->get("db")->getConnection();

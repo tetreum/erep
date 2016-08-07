@@ -19,18 +19,13 @@ class Session
 
     /**
      * Fills user data in current session
-     * @param string $user
-     * @param string $password
+     * @param array $user
      */
-    public function fillUserData ($user, $password = null)
+    public function fillUserData ($user)
     {
-        $_SESSION['user'] = [
-            "name" => $user,
-        ];
+        unset($user["password"]);
 
-        if (!empty($password)) {
-            $_SESSION['user']["password"] = $password;
-        }
+        $_SESSION['user'] = $user;
     }
 
     /**

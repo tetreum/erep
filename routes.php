@@ -30,6 +30,16 @@ $app->get('/logout', function($request, $response, $args) use ($app) {
     $ct->exec('logout');
 })->setName('logout');
 
+$app->get('/signup', function($request, $response, $args) use ($app) {
+    $ct = new User($app, $response);
+    $ct->exec('showSignup');
+})->setName('signup');
+
+$app->post('/signup', function($request, $response, $args) use ($app) {
+    $ct = new User($app, $response);
+    $ct->json('signup');
+});
+
 
 /**
  * API calls, all outputs are expected to be JSON & formatted like:
