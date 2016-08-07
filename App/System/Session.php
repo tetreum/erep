@@ -97,8 +97,13 @@ class Session
      * Gets user's money
      * @return mixed
      */
-    public function getMoney () {
-        return Money::where("uid", $this->getUser()["uid"]);
+    public function getMoney ()
+    {
+        $currencies = Money::where("uid", $this->getUser()["id"])->first()->toArray();
+
+        unset($currencies["uid"]);
+
+        return $currencies;
     }
 
     /**

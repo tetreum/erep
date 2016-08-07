@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Country;
 use App\Models\Money;
 use App\System\App;
 use App\System\AppException;
@@ -17,7 +18,8 @@ class User extends Controller
         $referrer = (int)$_GET["referrer"];
 
         return $this->render('signup.html.twig', [
-            "referrer" => $referrer
+            "referrer" => $referrer,
+            "countries" => Country::get()
         ]);
     }
 
@@ -56,6 +58,10 @@ class User extends Controller
         $data["status"] = UserModel::STATUS_ACTIVATED;
 
         try {
+            $country = Country::find($data["country"]);
+            $data["region"] = $country["capital"];
+            unset($data["country"]);
+
             $user = UserModel::create($data);
 
             // create user's entry in money db
