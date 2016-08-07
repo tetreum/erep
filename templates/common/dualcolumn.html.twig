@@ -1,16 +1,10 @@
 {% block dualColumn %}
     <div id="wrapper">
         <div id="left-column">
-            <h2>Mongo.lo</h2>
-            <div id="menu">
-                <a href="/" title="{% trans %}Home{% endtrans %}"><i class="fa fa-home"></i></a>
-                <a href="#" title="{% trans %}Config{% endtrans %}"><i class="fa fa-cog"></i></a>
-                <a href="http://github.com/tetreum/mongolo/wiki" target="_blank" data-noajax title="{% trans %}Help{% endtrans %}"><i class="fa fa-question"></i></a>
-                <a href="{{ path_for('logout') }}" data-noajax title="{% trans %}Logout{% endtrans %}"><i class="fa fa-sign-out"></i></a>
-            </div>
-            <div id="navigation-tree">
-                <ul>
-                </ul>
+            <h2>eRepublik</h2>
+            <div>
+                <img class="avatar" src="https://thumbs.dreamstime.com/z/persona-casual-del-retrato-masculino-del-avatar-del-icono-del-perfil-46846328.jpg">
+                {{ me.country }} {{ me.nick }}
             </div>
         </div>
 

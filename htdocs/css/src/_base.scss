@@ -32,3 +32,18 @@
 }
 
 $linkColor: #00abff;
+
+#wrapper {
+  display: flex;
+}
+
+#left-column {
+  flex: 0 0 20%;
+  border-right: 2px solid #DCDCDD;
+  overflow: hidden;
+}
+
+#main-container {
+  flex: 1 1 auto;
+  padding: 1em;
+}

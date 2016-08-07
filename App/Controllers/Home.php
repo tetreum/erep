@@ -19,6 +19,8 @@ class Home extends Controller
             exit;
         }
 
-        return $this->render('home.html.twig');
+        return $this->render('home.html.twig',[
+            "me" => $_SESSION["user"]
+        ]);
     }
 }
