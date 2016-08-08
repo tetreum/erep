@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Country;
 use App\Models\WorkOffer;
 use App\System\App;
 use App\System\AppException;
@@ -19,8 +20,9 @@ class WorkOffers extends Controller
             "country" => $country
         ])->paginate($limitPerPage);
 
-        return $this->render('work/list.html.twig',[
-            "offers" => $offers
+        return $this->render('work/list.html.twig', [
+            "offers" => $offers,
+            "countryList" => Country::all()->toArray()
         ]);
     }
 }

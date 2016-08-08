@@ -46,3 +46,13 @@ ul.dropdown ul, ul.dropdown ul li ul
 #header .logout-link {
   float: right;
 }
+
+.country-selector {
+  .arrow-container {
+    cursor: pointer;
+  }
+
+  .country-list {
+    display: none;
+  }
+}

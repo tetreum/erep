@@ -1,0 +1,17 @@
+{# Country selector widget, where user can filter/select a country from the list #}
+{# Requires countryList var #}
+<div class="country-selector">
+    <div class="arrow-container">
+        <i class="fa fa-arrow-down"></i>
+    </div>
+    <div class="country-list">
+        <input type="text">
+        <ul>
+            {% for country in countryList %}
+                <li>
+                    <img src="/img/flags/{{ country.id }}.png"> {{ country.name }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

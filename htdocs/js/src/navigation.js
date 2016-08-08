@@ -47,15 +47,53 @@ peque.navigation = function ()
 
         peque.navigation.get(path, function (html) {
             $("#main-container").html(html);
+
+            afterLoad();
         });
     };
 
+    var afterLoad = function ()
+    {
+        // init country selector widgets
+        $('.country-selector:not(data-parsed)').each(function ()
+        {
+            var $that = $(this);
+
+            $that.find('.arrow-container').on("click", function () {
+                $that.find(".country-list").toggle();
+            });
+
+            $that.find('input').on("click", function () {
+                var query = $(this).val().toLowerCase();
+
+                if (query.length < 2) {
+                    return;
+                }
+
+                $that.find("li").each(function () {
+                    if ($(this).data('name').toLowerCase().indexOf(query) > -1 ) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+
+            $(this).data("parsed", true);
+        });
+    };
+
+    // must be declared after browser() method
     $(document).on("click", "a:not([data-noajax])", function (e)
     {
         e.preventDefault();
 
         browse($(this).attr("href"));
     });
+    $(function() {
+        afterLoad();
+    });
+
 
     /**
      * Attempts to fix the given error code
