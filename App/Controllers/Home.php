@@ -19,11 +19,6 @@ class Home extends Controller
             exit;
         }
 
-        $me = App::session()->getUser();
-        $me["money"] = App::session()->getMoney();
-
-        return $this->render('home.html.twig',[
-            "my" => $me
-        ]);
+        return $this->render('home.html.twig');
     }
 }

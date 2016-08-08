@@ -17,7 +17,7 @@ class User extends Controller
 
         $referrer = (int)$_GET["referrer"];
 
-        return $this->render('signup.html.twig', [
+        return $this->render('user/signup.html.twig', [
             "referrer" => $referrer,
             "countries" => Country::get()
         ]);
@@ -87,7 +87,7 @@ class User extends Controller
     {
         $this->redirectLoggedUsers();
 
-        return $this->render('login.html.twig');
+        return $this->render('user/login.html.twig');
     }
 
     /**

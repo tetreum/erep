@@ -13,10 +13,11 @@ class WorkOffers extends Controller
     {
         $page = (int)$_GET["page"];
         $country = (int)$_GET["country"];
+        $limitPerPage = 15;
 
         $offers = WorkOffer::where([
             "country" => $country
-        ])->get();
+        ])->paginate($limitPerPage);
 
         return $this->render('work/list.html.twig',[
             "offers" => $offers

@@ -18,13 +18,13 @@
                 <div>
                     <ul>
                         <li>
-                            <img class="mini-flag" src="https://www.erevollution.com/public/game/flags/flat/{{ my.country }}/Spain.png"> Spain, Alicante
+                            <img class="icon small" src="/img/flags/{{ my.location.country.id }}.png"> {{my.location.country.name}}, {{ my.location.name}}
                         </li>
                         <li>
-                            <img src="https://www.erevollution.com/public/game/icons/gold-icon-s.png"> Gold: {{ my.money.gold }}
+                            <img class="icon small" src="/img/icons/gold.png"> Gold: {{ my.money.gold }}
                         </li>
                         <li>
-                            <img class="mini-flag" src="https://www.erevollution.com/public/game/flags/flat/{{ my.country }}/Spain.png"> ESP {{ my.money.esp }}
+                            <img class="icon small"src="/img/flags/{{ my.location.country.id }}.png"> ESP {{ my.money.esp }}
                         </li>
                         <li>
                             <progress id="max-health" value="70" max="100" style="position: absolute;"></progress>

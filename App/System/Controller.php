@@ -57,9 +57,16 @@ abstract class Controller
      * @param array $vars
      * @return mixed
      */
-    public function render ($file, $vars = []) {
-
+    public function render ($file, $vars = [])
+    {
         $vars["controller"] = str_replace('App\\Controllers\\', "", get_class($this));
+
+        if (App::session()->isLogged()) {
+            $user = App::session()->getUser();
+            $user["money"] = App::session()->getMoney();
+            $user["location"] = App::session()->getLocation();
+            $vars["my"] = $user;
+        }
 
         return $this->container->get("view")->render($this->response, $file, $vars);
     }

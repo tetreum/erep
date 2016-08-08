@@ -3,6 +3,7 @@
 namespace App\System;
 
 use App\Models\Money;
+use App\Models\Region;
 
 class Session
 {
@@ -93,17 +94,30 @@ class Session
         return $_SESSION['user'];
     }
 
+    public function getUid () {
+        return $this->getUser()["id"];
+    }
+
     /**
      * Gets user's money
      * @return mixed
      */
     public function getMoney ()
     {
-        $currencies = Money::where("uid", $this->getUser()["id"])->first()->toArray();
+        $currencies = Money::where("uid", $this->getUid())->first()->toArray();
 
         unset($currencies["uid"]);
 
         return $currencies;
+    }
+
+    /*
+     * Gets user's location
+     * @return array
+     */
+    public function getLocation ()
+    {
+        return Region::getFullInfo($this->getUser()["region"]);
     }
 
     /**
