@@ -42,10 +42,20 @@ $app->post('/signup', function($request, $response, $args) use ($app) {
     $ct->json('signup');
 });
 
-$app->get('/work-offers', function($request, $response, $args) use ($app) {
-    $ct = new WorkOffers($app, $response);
-    $ct->exec('showList');
-});
+
+$app->group('', function () use ($app)
+{
+    $app->get('/work-offers', function($request, $response, $args) use ($app) {
+        $ct = new WorkOffers($app, $response);
+        $ct->exec('showList');
+    })->setName('workOffers');
+
+    $app->get('/wars', function($request, $response, $args) use ($app) {
+        $ct = new Home($app, $response);
+        $ct->exec('showHomepage');
+    })->setName('wars');
+
+})->add($ensureLogged);
 
 
 /**

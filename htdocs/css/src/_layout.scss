@@ -1,0 +1,48 @@
+ul.dropdown li:hover > ul
+{
+  visibility: visible;
+  opacity: 1;
+}
+
+ul.dropdown ul, ul.dropdown ul li ul
+{
+  width: 180px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  visibility: hidden;
+  position: absolute;
+  z-index: 99999;
+  background: #f8f8f8;
+  box-shadow:0 2px 2px -1px rgba(0, 0, 0, 0.055);
+  opacity: 0;
+  -webkit-transition:opacity 0.2s linear, visibility 0.2s linear;
+  -moz-transition:opacity 0.2s linear, visibility 0.2s linear;
+  -o-transition:opacity 0.2s linear, visibility 0.2s linear;
+  transition:opacity 0.2s linear, visibility 0.2s linear;
+}
+
+#top-menu {
+  border: 2px solid #c4dbe7;
+  display: inline-block;
+
+  ul {
+    border: 2px solid #c4dbe7;
+  }
+  li > ul > li {
+    width: 89%;
+  }
+
+  li {
+    display: inline-block;
+    cursor: pointer;
+    padding: 10px;
+  }
+  li:hover {
+    background: #eae7e7;
+  }
+}
+
+#header .logout-link {
+  float: right;
+}
