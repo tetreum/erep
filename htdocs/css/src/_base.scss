@@ -49,9 +49,12 @@ $linkColor: #00abff;
   overflow: hidden;
 }
 
-#main-container {
+#right-column {
   flex: 1 1 auto;
   padding: 1em;
+}
+#main-container {
+  margin-top: 10px;
 }
 
 .icon.small {
