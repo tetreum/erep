@@ -1,11 +1,54 @@
 {% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
 
 {% block content %}
+    <div class="country-selector">
+        <div>
+            Arrow
+        </div>
+        <div>
+            <input type="text">
+            <ul>
+                {% for country in countryList %}
+                    <li>
+                        <img src="/img/flags/{{ country.id }}.png"> {{ country.name }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
     {% if offers|length > 0 %}
-        {% for job in offers %}
-
-        {% endfor %}
+        <table>
+            <thead>
+            <tr>
+                <th>{% trans %}Employer{% trans %}</th>
+                <th>{% trans %}Daily salary{% trans %}</th>
+                <th>{% trans %}Apply{% trans %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for job in offers %}
+                <tr>
+                    <td>
+                        <a href="#">
+                            <img src="">
+                        </a>
+                    </td>
+                    <td><a href="#">{{ job.employer.nick }}</a></td>
+                    <td><strong>{{ job.money }}</strong> {{ job.currency }}</td>
+                    <td><button>{% trans %}Apply{% trans %}</button></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     {% else %}
-        No offers available
+        {% trans %}No offers available in this country{% trans %}
     {% endif %}
+{% endblock %}
+
+{% block bottomJS %}
+    <script>
+        $(function () {
+            peque.work.init();
+        });
+    </script>
 {% endblock %}
