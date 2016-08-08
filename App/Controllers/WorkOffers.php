@@ -17,7 +17,8 @@ class WorkOffers extends Controller
         $limitPerPage = 15;
 
         $offers = WorkOffer::where([
-            "country" => $country
+            "country" => $country,
+            "worker" => null
         ])->paginate($limitPerPage);
 
         return $this->render('work/list.html.twig', [

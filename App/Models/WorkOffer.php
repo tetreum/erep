@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class WorkOffer extends Model
 {
-    protected $fillable = ["company", "salary", "country"];
+    protected $fillable = ["company", "salary", "country", "worker", "last_work"];
 }

@@ -2,6 +2,14 @@
 
 {% block content %}
     <div>
-        sdfsdf
+        <center><h1>¡Welcome to this temporal home!</h1></center>
+        {% if job.hasJob %}
+            {% if not job.hasWorkedToday %}
+                <a href="">¡Time to work mate!</a>
+            {% endif %}
+        {% else %}
+            You are unemployed
+            <a href="{{ path_for('workOffers') }}">¡Find a job!</a>
+        {% endif %}
     </div>
 {% endblock %}
