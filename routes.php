@@ -55,6 +55,11 @@ $app->group('', function () use ($app)
         $ct->exec('showHomepage');
     })->setName('wars');
 
+    $app->get('/companies', function($request, $response, $args) use ($app) {
+        $ct = new Home($app, $response);
+        $ct->exec('showHomepage');
+    })->setName('wars');
+
 })->add($ensureLogged);
 
 

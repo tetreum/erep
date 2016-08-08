@@ -7,7 +7,8 @@
     "slim/twig-view": "^2.1",
     "twig/extensions": "^1.3",
     "illuminate/database": "*",
-    "tetreum/perfect-print": "dev-master"
+    "tetreum/perfect-print": "dev-master",
+    "illuminate/pagination": "^5.2"
   },
   "require-dev": {
     "sensiolabs/security-checker": "^3.0"

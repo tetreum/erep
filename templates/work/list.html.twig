@@ -1,0 +1,11 @@
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+    {% if offers|length > 0 %}
+        {% for job in offers %}
+
+        {% endfor %}
+    {% else %}
+        No offers available
+    {% endif %}
+{% endblock %}
