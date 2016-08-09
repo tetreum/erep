@@ -1,0 +1,9 @@
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+    {% for company in companies %}
+        <div>
+            {{ company.type }}
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -52,13 +52,13 @@ $app->group('', function () use ($app)
 
     $app->get('/wars', function($request, $response, $args) use ($app) {
         $ct = new Home($app, $response);
-        $ct->exec('showHomepage');
+        $ct->exec('showWarList');
     })->setName('wars');
 
-    $app->get('/companies', function($request, $response, $args) use ($app) {
+    $app->get('/mycompanies', function($request, $response, $args) use ($app) {
         $ct = new Home($app, $response);
-        $ct->exec('showHomepage');
-    })->setName('wars');
+        $ct->exec('showMyCompanies');
+    })->setName('mycompanies');
 
 })->add($ensureLogged);
 
