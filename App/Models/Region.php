@@ -10,15 +10,10 @@ class Region extends Model
 
     public static function getFullInfo ($id)
     {
-        $regionModel = self::find($id);
-        $region = $regionModel->toArray();
-
-        $region["country"] = $regionModel->countryInfo->toArray();
-
-        return $region;
+        return Region::with('country')->where('id', $id)->first()->toArray();
     }
 
-    public function countryInfo() {
+    public function country() {
         return $this->hasOne('App\Models\Country', 'id', 'country');
     }
 }

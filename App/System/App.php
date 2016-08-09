@@ -120,4 +120,11 @@ class App
     public static function session () {
         return self::container()->get("session");
     }
+
+    /**
+     * @return array
+     */
+    public static function settings () {
+        return self::container()->get("settings");
+    }
 }

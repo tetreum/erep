@@ -85,6 +85,8 @@ $app->add(function ($request, $response, $next) use ($app) {
             $response->message = $e->getMessage();
 
             \App\System\Utils::jsonResponse($response);
+        } else if (App::settings()["mode"] == "development") {
+            throw $e;
         }
     }
 
