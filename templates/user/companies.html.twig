@@ -1,9 +1,18 @@
 {% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
 
 {% block content %}
+    <a href="{{ path_for('createCompany') }}">Create a new company</a>
     {% for company in companies %}
         <div>
             {{ company.type }}
         </div>
     {% endfor %}
+{% endblock %}
+
+{% block bottomJS %}
+    <script>
+        $(function () {
+            peque.company.init();
+        });
+    </script>
 {% endblock %}

@@ -1,0 +1,62 @@
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+    {% for sectorName, sector in sectors %}
+        <h1>{{ sectorName }} sector</h1>
+
+        {% for company in sector %}
+        <button data-action="show-company-options" data-id="{{ company.id }}">
+            <img src="/img/products/{{ company.id }}.png"><br>
+            {{ company.name }}
+        </button>
+        {% endfor %}
+    {% endfor %}
+    <hr>
+    {% for sectorName, sector in sectors %}
+        {% for company in sector %}
+            <table data-id="{{ company.id }}" class="company-qualities">
+                <tr>
+                    <th></th>
+                    <th>Product</th>
+                    <th>Workers</th>
+                    <th>Cost</th>
+                    <th></th>
+                </tr>
+                {% for quality, data in company.qualities %}
+                    <tr>
+                        <td><img src="/img/companies/{{ company.id }}.png">{{ company.name }} Q{{ quality }}</td>
+                        <td>{{ data.product_amount }}</td>
+                        <td>{{ data.workers }} <i class="fa fa-user" aria-hidden="true"></i></td>
+                        <td>{{ data.price }} {% if data.currency == "gold" %}<img class="icon small" src="/img/icons/gold.png">{% else %}<img class="icon small" src="/img/flags/{{ my.location.country.id }}.png">{% endif %}</td>
+                        <td><button data-action="buy-company" data-id="{{ company.id }}" data-quality="{{ quality }}" data-name="{{ company.name }} Q{{ quality }}">Buy</button></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
+
+{% block bottomJS %}
+    <script>
+        $(function () {
+            peque.company.createInit();
+        });
+    </script>
+    <style>
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 1px solid #bbb;
+            text-align: center;
+            vertical-align: middle;
+        }
+        td, th {
+            border-top: 1px solid #ddd;
+            padding: 4px 8px;
+            vertical-align: middle;
+        }
+        .company-qualities {
+            display: none;
+        }
+    </style>
+{% endblock %}

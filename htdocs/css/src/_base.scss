@@ -39,7 +39,7 @@ $linkColor: #00abff;
 #wrapper {
   display: flex;
   background: #f9f9f9;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 #left-column {

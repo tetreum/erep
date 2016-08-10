@@ -56,9 +56,15 @@ $app->group('', function () use ($app)
     })->setName('wars');
 
     $app->get('/mycompanies', function($request, $response, $args) use ($app) {
-        $ct = new Home($app, $response);
+        $ct = new Company($app, $response);
         $ct->exec('showMyCompanies');
-    })->setName('mycompanies');
+    })->setName('myCompanies');
+
+    $app->get('/create-company', function($request, $response, $args) use ($app) {
+        $ct = new Company($app, $response);
+        $ct->exec('showCreate');
+    })->setName('createCompany');
+
 
 })->add($ensureLogged);
 
