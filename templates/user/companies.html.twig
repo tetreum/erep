@@ -1,7 +1,14 @@
 {% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
 
 {% block content %}
-
+    {% if job.hasJob %}
+        {% if not job.hasWorkedToday %}
+           <button>Work</button>
+        {% endif %}
+    {% else %}
+        You are unemployed
+        <a href="{{ path_for('workOffers') }}">¡Find a job!</a>
+    {% endif %}
     <table id="my-companies">
         <tr>
             <th><a href="{{ path_for('createCompany') }}">Create a new company</a></th>

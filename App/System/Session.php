@@ -4,6 +4,7 @@ namespace App\System;
 
 use App\Models\Money;
 use App\Models\Region;
+use App\Models\WorkOffer;
 
 class Session
 {
@@ -120,6 +121,16 @@ class Session
     public function getLocation ()
     {
         return Region::getFullInfo($this->getUser()["region"]);
+    }
+
+    /**
+     * @return WorkOffer
+     */
+    public function getJob ()
+    {
+        return WorkOffer::where([
+            "worker" => App::session()->getUid()
+        ])->first();
     }
 
     /**

@@ -3,6 +3,10 @@ peque.company = function ()
     'use strict';
 
     var init = function () {
+        $('[data-action=check-all]').on("click", function () {
+
+        });
+
         $('[data-action=work-as-manager]').on("click", function () {
             var list = [];
 

@@ -17,7 +17,20 @@ class Company extends Controller
             "uid" => App::session()->getUid()
         ])->get()->toArray();
 
+        $job = App::user()->getJob();
+
+        $jobData = [
+            "hasJob" => false,
+            "hasWorkedToday" => false
+        ];
+
+        if (!empty($job)) {
+            $jobData["hasJob"] = true;
+            $jobData["hasWorkedToday"] = $job->hasWorkedToday();
+        }
+
         return $this->render('user/companies.html.twig', [
+            "job" => $jobData,
             "companies" => $list,
             "companyTypes" => CompanyType::$types,
         ]);
