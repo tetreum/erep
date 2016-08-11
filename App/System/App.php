@@ -122,6 +122,13 @@ class App
     }
 
     /**
+     * @return Session
+     */
+    public static function user () {
+        return self::container()->get("session");
+    }
+
+    /**
      * @return array
      */
     public static function settings () {

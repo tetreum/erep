@@ -9,6 +9,8 @@ class Session
 {
     private $app;
 
+    const PURCHASE_TYPE_COMPANY = "company";
+
     public function __construct($app)
     {
         $this->app = $app;
@@ -102,7 +104,7 @@ class Session
      * Gets user's money
      * @return mixed
      */
-    public function getMoney ()
+    public function getMoney ($rewriteCache = false)
     {
         $currencies = Money::where("uid", $this->getUid())->first()->toArray();
 
@@ -118,6 +120,34 @@ class Session
     public function getLocation ()
     {
         return Region::getFullInfo($this->getUser()["region"]);
+    }
+
+    /**
+     * Checks if user can pay
+     * @param $amount
+     * @param $currency
+     */
+    public function buy ($amount, $currency, $purchaseType)
+    {
+        // get the local currency
+        if ($currency == "local") {
+            $currency = $this->getLocation()["country"]["currency"];
+        }
+
+        $money = Money::where("uid", $this->getUid())->first();
+
+        if (empty($money[$currency]) || $money[$currency] < $amount) {
+            throw new AppException(AppException::NO_ENOUGH_MONEY);
+        }
+
+        $money[$currency] -= $amount;
+        $saved = $money->save();
+
+        if ($saved) {
+            $this->getMoney(true);
+        }
+
+        return $saved;
     }
 
     /**

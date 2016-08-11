@@ -173,8 +173,11 @@ class CompanyType
         ],
     ];
 
-    public function getInfo ($id, $quality)
+    public static function getInfo ($id, $quality)
     {
-        return self::$types[$id]["qualities"][$quality];
+        $mainInfo = self::$types[$id];
+        unset($mainInfo["qualities"]);
+
+        return array_merge($mainInfo, self::$types[$id]["qualities"][$quality]);
     }
 }

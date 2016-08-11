@@ -27,12 +27,16 @@ peque.company = function ()
                 return false;
             }
 
-            peque.utils.showConfirm("¿Are you sure to buy a " + name + "?", function ()
+            peque.navigation.showConfirm("¿Are you sure to buy a " + name + "?", function ()
             {
                 peque.api("company/create", {id: id, quality: quality}, function (data) {
                     if (data.error == 0) {
-                        peque.navigation.redirect("/my-companies");
+                        peque.navigation.redirect("/mycompanies");
                         return true;
+                    } else if (data.error == 6) {
+                        peque.navigation.showError("You dont have enough money");
+                    } else {
+                        peque.navigation.showError("internal error");
                     }
                 });
             });
