@@ -19,6 +19,7 @@ class Company extends Controller
 
         return $this->render('user/companies.html.twig', [
             "companies" => $list,
+            "companyTypes" => CompanyType::$types,
         ]);
     }
 
@@ -30,7 +31,6 @@ class Company extends Controller
         foreach (CompanyType::$types as $company) {
             $list[$company["sector"]][] = $company;
         }
-
 
         return $this->render('user/create_company.html.twig', [
             "sectors" => $list,

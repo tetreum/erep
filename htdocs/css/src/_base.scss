@@ -60,3 +60,16 @@ $linkColor: #00abff;
   width: 24px;
   height: 24px;
 }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #bbb;
+  text-align: center;
+  vertical-align: middle;
+}
+td, th {
+  border-top: 1px solid #ddd;
+  padding: 4px 8px;
+  vertical-align: middle;
+}

@@ -3,8 +3,24 @@ peque.company = function ()
     'use strict';
 
     var init = function () {
-        $('[data-action=create-company]').on("click", function () {
+        $('[data-action=work-as-manager]').on("click", function () {
+            var list = [];
 
+            $('#my-companies input:checked').each(function () {
+                list.push($(this).data("company"));
+            });
+
+            if (list.length < 1) {
+                return false;
+            }
+
+            peque.api("company/work", {list: list}, function (data) {
+                if (data.error > 0) {
+                    return false;
+                }
+
+                // display work results
+            });
         });
     };
 
