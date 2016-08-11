@@ -2,8 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Models\Company;
 use App\Models\Country;
 use App\Models\Money;
+use App\Models\WorkOffer;
 use App\System\App;
 use App\System\AppException;
 use App\System\Controller;
@@ -11,6 +13,24 @@ use \App\Models\User as UserModel;
 
 class User extends Controller
 {
+    public function work ()
+    {
+        $list = $_POST["list"];
+
+        foreach ($list as &$company) {
+            $company = (int)$company;
+        }
+
+        $where = Company::where('uid', App::user()->getUid());
+        $companies = $where::whereIn("id", $list)->get();
+
+        foreach ($companies as $company) {
+            if ($company->hasManagerWorkedToday()) {
+                throw new AppException(AppException::ACTION_FAILED);
+            }
+        }
+    }
+
     public function showSignup ()
     {
         $this->redirectLoggedUsers();

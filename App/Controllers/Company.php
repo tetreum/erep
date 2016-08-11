@@ -17,6 +17,14 @@ class Company extends Controller
             "uid" => App::session()->getUid()
         ])->get()->toArray();
 
+        // reorder them by sector
+        usort($list, function ($a, $b) {
+            if (CompanyType::$types[$a["type"]]["sector"] > CompanyType::$types[$b["type"]]["sector"]) {
+                return -1;
+            }
+            return 1;
+        });
+
         $job = App::user()->getJob();
 
         $jobData = [

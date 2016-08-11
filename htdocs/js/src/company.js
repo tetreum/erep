@@ -2,15 +2,18 @@ peque.company = function ()
 {
     'use strict';
 
-    var init = function () {
+    var init = function ()
+    {
         $('[data-action=check-all]').on("click", function () {
+            var isChecked = $(this).is(":checked");
 
+            $('#my-companies input[data-company]').prop("checked", isChecked);
         });
 
         $('[data-action=work-as-manager]').on("click", function () {
             var list = [];
 
-            $('#my-companies input:checked').each(function () {
+            $('#my-companies input[data-company]:checked').each(function () {
                 list.push($(this).data("company"));
             });
 
@@ -18,7 +21,7 @@ peque.company = function ()
                 return false;
             }
 
-            peque.api("company/work", {list: list}, function (data) {
+            peque.api("user/work", {list: list}, function (data) {
                 if (data.error > 0) {
                     return false;
                 }

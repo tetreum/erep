@@ -22,12 +22,12 @@
             <td><img src="/img/companies/{{ company.type }}.png"> {{ companyTypes[company.type].name }} {{ company.quality }}</td>
             <td><input type="checkbox" data-company="{{ company.id }}"></td>
             <td>{{ companyTypes[company.type].qualities[company.quality].workers }}</td>
-            <td>
+            <td class="red">
                 {% if companyTypes[company.type].qualities[company.quality].consume_product > 0 %}
                 -{{ companyTypes[company.type].qualities[company.quality].consume_amount }} <img src="/img/products/{{ companyTypes[company.type].qualities[company.quality].consume_product }}.png">
                 {% endif %}
             </td>
-            <td>+{{ companyTypes[company.type].qualities[company.quality].product_amount }} <img src="/img/products/{{ companyTypes[company.type].product }}.png"></td>
+            <td class="green">+{{ companyTypes[company.type].qualities[company.quality].product_amount }} <img src="/img/products/{{ companyTypes[company.type].product }}.png"></td>
         </tr>
     {% endfor %}
     </table>
