@@ -2,6 +2,7 @@
 
 namespace App\System;
 
+use App\Models\Item;
 use App\Models\Money;
 use App\Models\Region;
 use App\Models\WorkOffer;
@@ -131,6 +132,16 @@ class Session
         return WorkOffer::where([
             "worker" => App::session()->getUid()
         ])->first();
+    }
+
+    /**
+     * @return array
+     */
+    public function getItems ()
+    {
+        return Item::where([
+            "uid" => App::session()->getUid()
+        ])->get();
     }
 
     /**

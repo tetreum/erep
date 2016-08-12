@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Company;
 use App\Models\CompanyType;
 use App\Models\Country;
+use App\Models\Item;
 use App\Models\Money;
 use App\Models\WorkOffer;
 use App\System\App;
@@ -17,13 +18,15 @@ class User extends Controller
     public function work ()
     {
         $list = $_POST["list"];
+        $uid = App::user()->getUid();
+        $itemModel = new Item();
 
         foreach ($list as &$company) {
             $company = (int)$company;
         }
 
-        $companies = Company::where('uid', App::user()->getUid())->whereIn("id", $list)->get();
-        $costs = [];
+        $companies = Company::where('uid', $uid)->whereIn("id", $list)->get();
+        $production = [];
 
         foreach ($companies as $company)
         {
@@ -33,17 +36,56 @@ class User extends Controller
 
             // raw companies dont consume any resource
             if (!empty(CompanyType::$types[$company["type"]]["qualities"][$company["quality"]]["consume_product"])) {
-                $costs[CompanyType::$types[$company["type"]]["qualities"][$company["quality"]]["consume_product"]] -= CompanyType::$types[$company["type"]]["qualities"][$company["quality"]]["consume_amount"];
+                $production[CompanyType::$types[$company["type"]]["qualities"][$company["quality"]]["consume_product"]][0] -= CompanyType::$types[$company["type"]]["qualities"][$company["quality"]]["consume_amount"];
             }
 
-            $costs[CompanyType::$types[$company["type"]]["product"]] += CompanyType::$types[$company["type"]]["qualities"][$company["quality"]]["product_amount"];
+            // set raw products quality to 0 (none) as they dont have qualities
+            if ($itemModel->isRaw(CompanyType::$types[$company["type"]]["product"])) {
+                $quality = 0;
+            } else {
+                $quality = $company["quality"];
+            }
+            $production[CompanyType::$types[$company["type"]]["product"]][$quality] += CompanyType::$types[$company["type"]]["qualities"][$company["quality"]]["product_amount"];
         }
 
-        foreach ($costs as $product => $quantity) {
-            if ($quantity < 0) {
-                throw new AppException(AppException::ACTION_FAILED);
+        // check if user misses some resource
+        foreach ($production as $product => $qualities)
+        {
+            foreach ($qualities as $quality => $quantity)
+            {
+                if ($quantity < 0)
+                {
+                    // check if user has more of this resources in his inventory
+                    $item = Item::where([
+                        "uid" => $uid,
+                        "item" => $product,
+                        "quality" => $quality,
+                    ])->first();
+                    $quantity += $item->quantity;
+
+                    if ($quantity < 0) {
+                        throw new AppException(AppException::NO_ENOUGH_RESOURCES);
+                    }
+                }
             }
         }
+
+        // create/update item quantities
+        foreach ($production as $product => $qualities)
+        {
+            foreach ($qualities as $quality => $quantity)
+            {
+                Item::updateOrCreate([
+                    "uid" => $uid,
+                    "item" => $product,
+                    "quality" => $quality,
+                ], [
+                    "quantity", "+=", $quantity
+                ]);
+            }
+        }
+
+        return $production;
     }
 
     public function showSignup ()
