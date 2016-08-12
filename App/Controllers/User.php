@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Company;
+use App\Models\CompanyType;
 use App\Models\Country;
 use App\Models\Money;
 use App\Models\WorkOffer;
@@ -21,11 +22,25 @@ class User extends Controller
             $company = (int)$company;
         }
 
-        $where = Company::where('uid', App::user()->getUid());
-        $companies = $where::whereIn("id", $list)->get();
+        $companies = Company::where('uid', App::user()->getUid())->whereIn("id", $list)->get();
+        $costs = [];
 
-        foreach ($companies as $company) {
+        foreach ($companies as $company)
+        {
             if ($company->hasManagerWorkedToday()) {
+                throw new AppException(AppException::ACTION_FAILED);
+            }
+
+            // raw companies dont consume any resource
+            if (!empty(CompanyType::$types[$company["type"]]["qualities"][$company["quality"]]["consume_product"])) {
+                $costs[CompanyType::$types[$company["type"]]["qualities"][$company["quality"]]["consume_product"]] -= CompanyType::$types[$company["type"]]["qualities"][$company["quality"]]["consume_amount"];
+            }
+
+            $costs[CompanyType::$types[$company["type"]]["product"]] += CompanyType::$types[$company["type"]]["qualities"][$company["quality"]]["product_amount"];
+        }
+
+        foreach ($costs as $product => $quantity) {
+            if ($quantity < 0) {
                 throw new AppException(AppException::ACTION_FAILED);
             }
         }

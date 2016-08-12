@@ -24,14 +24,23 @@
             <td>{{ companyTypes[company.type].qualities[company.quality].workers }}</td>
             <td class="red">
                 {% if companyTypes[company.type].qualities[company.quality].consume_product > 0 %}
-                -{{ companyTypes[company.type].qualities[company.quality].consume_amount }} <img src="/img/products/{{ companyTypes[company.type].qualities[company.quality].consume_product }}.png">
+                -{{ companyTypes[company.type].qualities[company.quality].consume_amount }} <img class="icon medium" src="/img/products/{{ companyTypes[company.type].qualities[company.quality].consume_product }}.png">
                 {% endif %}
             </td>
-            <td class="green">+{{ companyTypes[company.type].qualities[company.quality].product_amount }} <img src="/img/products/{{ companyTypes[company.type].product }}.png"></td>
+            <td class="green">+{{ companyTypes[company.type].qualities[company.quality].product_amount }} <img class="icon medium" src="/img/products/{{ companyTypes[company.type].product }}.png"></td>
         </tr>
     {% endfor %}
     </table>
-    <button data-action="work-as-manager">Work</button>
+    <div>
+        Produced raw:
+        <ul>
+            <li data-product="1"><img class="icon small" src="/img/products/1.png"> 0</li>
+            <li data-product="2"><img class="icon small" src="/img/products/2.png"> 0</li>
+            <li data-product="3"><img class="icon small" src="/img/products/3.png"> 0</li>
+        </ul>
+        <button data-action="work-as-manager">Start production</button>
+    </div>
+
 {% endblock %}
 
 {% block bottomJS %}
