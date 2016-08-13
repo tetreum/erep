@@ -14,12 +14,27 @@
             You don't have any item. Buy something in <a href="#">the marketplace</a>.
         {% endif %}
     </div>
+    {% if items|length > 0 %}
+        <h1>Sell items</h1>
+        <div>
+            <form id="sell-item-form" method="post">
+                <select  name="item">
+                    {% for item in items %}
+                        <option value="{{ item.item }}" data-quality="{{ item.quality }}">{{ item.item }}</option>
+                    {% endfor %}
+                </select>
+                <label>Quantity: <input name="quantity" type="number" value="1"></label>
+                <label>Price / unit: <input name="price" type="number"> {% filter upper %}{{ my.location.country.currency }}{% endfilter %}</label>
+                <button>Create offer</button>
+            </form>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block bottomJS %}
     <script>
         $(function () {
-
+            peque.market.initStorage();
         });
     </script>
 {% endblock %}

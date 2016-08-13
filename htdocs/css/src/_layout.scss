@@ -41,6 +41,10 @@ ul.dropdown ul, ul.dropdown ul li ul
   li:hover {
     background: #eae7e7;
   }
+
+  li > ul > li > a {
+    display: block;
+  }
 }
 
 #header .logout-link {

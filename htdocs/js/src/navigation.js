@@ -170,13 +170,25 @@ peque.navigation = function ()
             callback);
     };
 
-    var showSuccess = function (message)
+    var showSuccess = function (message, ops)
     {
-        swal({title: "¡Success!",
-            text: message,
-            type: "success",
-            html: true
-        });
+        if (typeof ops === "undefined") {
+            ops = {};
+        }
+
+        if (typeof ops.callback === "undefined") {
+            swal({title: "¡Success!",
+                text: message,
+                type: "success",
+                html: true
+            });
+        } else {
+            swal({title: "¡Success!",
+                text: message,
+                type: "success",
+                html: true
+            }, callback);
+        }
     };
 
     var reload = function () {

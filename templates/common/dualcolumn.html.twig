@@ -24,7 +24,7 @@
                             <img class="icon small" src="/img/icons/gold.png"> Gold: {{ my.money.gold }}
                         </li>
                         <li>
-                            <img class="icon small"src="/img/flags/{{ my.location.country.id }}.png"> ESP {{ my.money.esp }}
+                            <img class="icon small"src="/img/flags/{{ my.location.country.id }}.png"> {% filter upper %}{{ my.location.country.currency }}{% endfilter %} {{ my.money[my.location.country.currency] }}
                         </li>
                         <li>
                             <progress id="max-health" value="70" max="100" style="position: absolute;"></progress>
