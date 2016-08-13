@@ -20,7 +20,7 @@
     {% for company in companies %}
         <tr>
             <td><img src="/img/companies/{{ company.type }}.png"> {{ companyTypes[company.type].name }} {{ company.quality }}</td>
-            <td><input type="checkbox" data-company="{{ company.id }}"></td>
+            <td><input type="checkbox" data-company="{{ company.id }}" {% if company.hasManagerWorkedToday %}disabled checked{% endif %}></td>
             <td>{{ companyTypes[company.type].qualities[company.quality].workers }}</td>
             <td class="red">
                 {% if companyTypes[company.type].qualities[company.quality].consume_product > 0 %}
@@ -40,7 +40,12 @@
         </ul>
         <button data-action="work-as-manager">Start production</button>
     </div>
-
+<template id="tpl-work-result">
+<div class="work-result">
+    <img src=""><br>
+    <span data-id="quantity"></span>
+</div>
+</template>
 {% endblock %}
 
 {% block bottomJS %}

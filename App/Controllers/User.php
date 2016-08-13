@@ -55,7 +55,7 @@ class User extends Controller
             {
                 if ($quantity < 0)
                 {
-                    // check if user has more of this resources in his inventory
+                    // check if user has more in his inventory
                     $item = Item::where([
                         "uid" => $uid,
                         "item" => $product,
@@ -75,14 +75,21 @@ class User extends Controller
         {
             foreach ($qualities as $quality => $quantity)
             {
-                Item::updateOrCreate([
+                $item = Item::firstOrNew([
                     "uid" => $uid,
                     "item" => $product,
                     "quality" => $quality,
-                ], [
-                    "quantity", "+=", $quantity
                 ]);
+                $item->quantity += $quantity;
+                $item->save();
             }
+        }
+
+        // set that he has worked as manager today
+        foreach ($companies as $company)
+        {
+            $company->last_work = date("Y-m-d H:i:s");
+            $company->save();
         }
 
         return $production;

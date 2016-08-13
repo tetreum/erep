@@ -21,4 +21,12 @@ class Company extends Model
         }
         return false;
     }
+
+    public function toArray ()
+    {
+        $data = parent::toArray();
+        $data["hasManagerWorkedToday"] = $this->hasManagerWorkedToday();
+
+        return $data;
+    }
 }

@@ -14,6 +14,9 @@ peque.company = function ()
             var list = [];
 
             $('#my-companies input[data-company]:checked').each(function () {
+                if ($(this).is(":disabled")) {
+                    return true;
+                }
                 list.push($(this).data("company"));
             });
 
@@ -25,8 +28,47 @@ peque.company = function ()
                 if (data.error > 0) {
                     return false;
                 }
+                var html = "",
+                    name = "",
+                    quantity,
+                    $template;
 
-                // display work results
+                for (var item in data.result)
+                {
+                    if (!data.result.hasOwnProperty(item)) {
+                        continue;
+                    }
+
+                    for (var quality in data.result[item])
+                    {
+                        if (!data.result[item].hasOwnProperty(quality)) {
+                            continue;
+                        }
+
+                        $template = peque.utils.getTemplate("work-result");
+                        quantity = parseFloat(data.result[item][quality]);
+
+                        if (quality > 0) {
+                            name = "Q" + quality;
+                        } else {
+                            name = "";
+                        }
+
+                        if (quantity > 0) {
+                            $template.addClass("background-green");
+                            name += " +";
+                        } else {
+                            $template.addClass("background-red");
+                            name += " -";
+                        }
+                        $template.find("img").attr("src", "/img/products/" + item + ".png");
+                        $template.find("[data-id=quantity]").html(name + quantity.toString());
+
+                        html += $template[0].outerHTML;
+                    }
+                }
+
+                peque.navigation.showSuccess(html);
             });
         });
     };

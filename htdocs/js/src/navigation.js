@@ -108,6 +108,7 @@ peque.navigation = function ()
                 peque.navigation.redirect("logout?redirect=" + encodeURIComponent(location.pathname + location.search));
                 break;
             case 4: // missing params
+            case 5: // action denied
                 showError(data.message);
                 break;
             default:
@@ -152,20 +153,30 @@ peque.navigation = function ()
     };
 
     var showError = function (message) {
-        alert(message);
+        swal({title: "¡Error!", text: message, type: "error", confirmButtonText: "Cool", html: true});
     };
 
     var showConfirm = function (message, callback)
     {
-        var success = confirm(message);
-
-        if (success) {
-            callback();
-        }
+        swal({title: "¿Are you sure?",
+                text: message,
+                type: "warning",
+                html: true,
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Confirm",
+                closeOnConfirm: false
+            },
+            callback);
     };
 
-    var openCollection = function (db, collection) {
-        peque.tree.getCollection(db, collection).find("a").click();
+    var showSuccess = function (message)
+    {
+        swal({title: "¡Success!",
+            text: message,
+            type: "success",
+            html: true
+        });
     };
 
     var reload = function () {
@@ -181,7 +192,7 @@ peque.navigation = function ()
         parseError: parseError,
         showError: showError,
         showConfirm: showConfirm,
-        openCollection: openCollection,
+        showSuccess: showSuccess,
         post: post,
         get: get
     };
