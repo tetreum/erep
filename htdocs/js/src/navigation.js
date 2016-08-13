@@ -187,7 +187,7 @@ peque.navigation = function ()
                 text: message,
                 type: "success",
                 html: true
-            }, callback);
+            }, ops.callback);
         }
     };
 

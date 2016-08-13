@@ -8,7 +8,7 @@ use App\System\App;
 use App\System\AppException;
 use App\System\Controller;
 
-class Company extends Controller
+class Market extends Controller
 {
     public function sell ()
     {
@@ -28,7 +28,7 @@ class Company extends Controller
             "quality" => $quality,
         ];
 
-        // check if user have the item
+        // check if user has the item
         $item = Item::where($query)->first();
 
         if (!$item || $item->quantity < $quantity) {
@@ -37,6 +37,7 @@ class Company extends Controller
 
         $query["quantity"] = $quantity;
         $query["price"] = $price;
+        $query["country"] = App::user()->getLocation()["id"];
 
         $success = ItemOffer::create($query);
 
