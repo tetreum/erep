@@ -18,7 +18,7 @@ peque.market = function () {
                 return false;
             }
 
-            peque.api("/market/sell", data, function (data) {
+            peque.api("/marketplace/sell", data, function (data) {
                 if (data.error > 0) {
                     return false;
                 }

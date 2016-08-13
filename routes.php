@@ -3,6 +3,7 @@
 use \App\Controllers\User;
 use \App\Controllers\Home;
 use \App\Controllers\Company;
+use \App\Controllers\Market;
 use \App\Controllers\WorkOffers;
 
 $ensureLogged = function($request, $response, $next) use ($app)
@@ -132,5 +133,18 @@ $app->group('/api', function () use ($app)
             $ct->json('delete');
         });
     });
+
+    $app->group('/marketplace', function () use ($app)
+    {
+        $app->get('/list', function($request, $response, $args) use ($app) {
+            $ct = new Market($app, $response);
+            $ct->json('getList');
+        });
+        $app->post('/sell', function($request, $response, $args) use ($app) {
+            $ct = new Market($app, $response);
+            $ct->json('sell');
+        });
+    });
+
 })->add($ensureLogged);
 
