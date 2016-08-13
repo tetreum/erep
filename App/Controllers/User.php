@@ -15,6 +15,17 @@ use \App\Models\User as UserModel;
 
 class User extends Controller
 {
+    public function showStorage ()
+    {
+        $items = Item::where([
+            "uid" => App::user()->getUid()
+        ])->get()->toArray();
+
+        return $this->render('user/storage.html.twig', [
+            "items" => $items,
+        ]);
+    }
+
     public function work ()
     {
         $list = $_POST["list"];

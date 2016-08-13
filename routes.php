@@ -65,6 +65,10 @@ $app->group('', function () use ($app)
         $ct->exec('showCreate');
     })->setName('createCompany');
 
+    $app->get('/storage', function($request, $response, $args) use ($app) {
+        $ct = new User($app, $response);
+        $ct->exec('showStorage');
+    })->setName('storage');
 
 })->add($ensureLogged);
 
