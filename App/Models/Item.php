@@ -4,6 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Item
+ * @package App\Models
+ *
+ * This class has 'id' field because Eloquent doesn't support composite keys...
+ */
+
 class Item extends Model
 {
     const RAW_FOOD = 1;
@@ -13,7 +20,6 @@ class Item extends Model
     const GUN = 5;
     const TANK = 6;
 
-    protected $primaryKey = 'uid';
     protected $fillable = ["uid", "item", "quality", "quantity"];
     public $timestamps = false;
 

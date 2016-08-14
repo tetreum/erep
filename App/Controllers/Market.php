@@ -35,11 +35,20 @@ class Market extends Controller
             throw new AppException(AppException::INVALID_DATA);
         }
 
-        $query["quantity"] = $quantity;
         $query["price"] = $price;
         $query["country"] = App::user()->getLocation()["id"];
 
-        $success = ItemOffer::create($query);
+        // check if user has this item already on sale at the same price (to merge the offers)
+        $existingOffer = ItemOffer::where($query)->first();
+
+        if ($existingOffer) {
+            $existingOffer->quantity += $quantity;
+            $success = $existingOffer->save();
+        } else {
+            $query["quantity"] = $quantity;
+
+            $success = ItemOffer::create($query);
+        }
 
         if ($success) {
             // remove it from his inventory

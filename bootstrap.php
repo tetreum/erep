@@ -60,6 +60,10 @@ $container['db'] = function ($container) {
     $capsule->setAsGlobal();
     $capsule->bootEloquent();
 
+    // for query debugging/printing
+    //$capsule::connection()->enableQueryLog();
+    //p(\Illuminate\Database\Capsule\Manager::getQueryLog());exit;
+
     return $capsule;
 };
 
