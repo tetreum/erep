@@ -5,25 +5,26 @@
     {% include 'widgets/countrySelector.html.twig' %}
 
     {% if offers|length > 0 %}
-        <table>
+        <table id="item-results">
             <thead>
             <tr>
-                <th>{% trans %}Employer{% endtrans %}</th>
-                <th>{% trans %}Daily salary{% endtrans %}</th>
-                <th>{% trans %}Apply{% endtrans %}</th>
+                <th>{% trans %}Product{% endtrans %}</th>
+                <th>{% trans %}Seller{% endtrans %}</th>
+                <th>{% trans %}Supply{% endtrans %}</th>
+                <th>{% trans %}Price{% endtrans %}</th>
+                <th>{% trans %}Buy quantity{% endtrans %}</th>
             </tr>
             </thead>
             <tbody>
-            {% for job in offers %}
-                <tr>
+            {% for offer in offers %}
+                <tr id="offer-{{ offer.id }}">
                     <td>
-                        <a href="#">
-                            <img src="">
-                        </a>
+                        <img src="/img/products/{{ offer.item }}.png">
                     </td>
-                    <td><a href="#">{{ job.employer.nick }}</a></td>
-                    <td><strong>{{ job.money }}</strong> {{ job.currency }}</td>
-                    <td><button>{% trans %}Apply{% endtrans %}</button></td>
+                    <td><a href="#">{{ offer.seller.nick }}</a></td>
+                    <td>{{ offer.quantity }}</td>
+                    <td><strong>{{ offer.price }}</strong> {% filter upper %}{{ offer.country.currency }}{% endfilter %}</td>
+                    <td><input name="quantity" type="number" value="1"><button data-action="buy-item" data-id="{{ offer.id }}">{% trans %}Buy{% endtrans %}</button></td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -36,7 +37,7 @@
 {% block bottomJS %}
     <script>
         $(function () {
-
+            peque.market.initResultsList();
         });
     </script>
 {% endblock %}

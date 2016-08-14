@@ -12,19 +12,24 @@ use App\System\Controller;
 
 class Market extends Controller
 {
-    public function showItemOffers ()
+    public function showItemOffers ($item, $quality = 0)
     {
         $page = (int)$_GET["page"];
         $country = (int)$_GET["country"];
         $limitPerPage = 15;
 
-        $offers = ItemOffer::where([
+        if ($country < 1) {
+            $country = 1;
+        }
+
+        $offers = ItemOffer::with(['seller', 'country'])->where([
             "country" => $country,
-            "worker" => null
-        ])->paginate($limitPerPage);
+            "item" => $item,
+            "quality" => $quality,
+        ])->paginate($limitPerPage)->toArray();
 
         return $this->render('market/itemList.html.twig', [
-            "offers" => $offers,
+            "offers" => $offers["data"],
             "countryList" => Country::all()->toArray()
         ]);
     }
@@ -67,7 +72,7 @@ class Market extends Controller
         }
 
         $query["price"] = $price;
-        $query["country"] = App::user()->getLocation()["id"];
+        $query["country"] = App::user()->getLocation()["country"]["id"];
 
         // check if user has this item already on sale at the same price (to merge the offers)
         $existingOffer = ItemOffer::where($query)->first();

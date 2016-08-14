@@ -78,9 +78,9 @@ $app->group('', function () use ($app)
             $ct->exec('showMarketplaceHome');
         })->setName('marketplace');
 
-        $app->get(':id/:quality', function($request, $response, $args) use ($app) {
+        $app->get('/{item}/{quality}', function($request, $response, $args) use ($app) {
             $ct = new Market($app, $response);
-            $ct->exec('showItemOffers');
+            $ct->exec('showItemOffers', $args["item"], $args["quality"]);
         });
     });
 
