@@ -71,10 +71,18 @@ $app->group('', function () use ($app)
         $ct->exec('showStorage');
     })->setName('storage');
 
-    $app->get('/marketplace', function($request, $response, $args) use ($app) {
-        $ct = new Market($app, $response);
-        $ct->exec('showMarketplaceHome');
-    })->setName('marketplace');
+    $app->group('/marketplace', function () use ($app)
+    {
+        $app->get('', function($request, $response, $args) use ($app) {
+            $ct = new Market($app, $response);
+            $ct->exec('showMarketplaceHome');
+        })->setName('marketplace');
+
+        $app->get(':id/:quality', function($request, $response, $args) use ($app) {
+            $ct = new Market($app, $response);
+            $ct->exec('showItemOffers');
+        });
+    });
 
 })->add($ensureLogged);
 
