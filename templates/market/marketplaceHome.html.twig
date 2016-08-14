@@ -1,0 +1,21 @@
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+
+    {% include 'widgets/countrySelector.html.twig' %}
+
+    {% for product in products %}
+        <button data-action="show-company-options" data-id="{{ product.id }}">
+            <img src="/img/products/{{ product.id }}.png"><br>
+            {{ product.name }}
+        </button>
+    {% endfor %}
+{% endblock %}
+
+{% block bottomJS %}
+    <script>
+        $(function () {
+
+        });
+    </script>
+{% endblock %}

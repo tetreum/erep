@@ -2,7 +2,7 @@
 
 namespace App\System;
 
-use App\Models\Item;
+use App\Models\UserItem;
 use App\Models\Money;
 use App\Models\Region;
 use App\Models\WorkOffer;
@@ -139,7 +139,7 @@ class Session
      */
     public function getItems ()
     {
-        return Item::where([
+        return UserItem::where([
             "uid" => App::session()->getUid()
         ])->get();
     }

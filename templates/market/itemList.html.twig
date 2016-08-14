@@ -1,0 +1,42 @@
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+
+    {% include 'widgets/countrySelector.html.twig' %}
+
+    {% if offers|length > 0 %}
+        <table>
+            <thead>
+            <tr>
+                <th>{% trans %}Employer{% endtrans %}</th>
+                <th>{% trans %}Daily salary{% endtrans %}</th>
+                <th>{% trans %}Apply{% endtrans %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for job in offers %}
+                <tr>
+                    <td>
+                        <a href="#">
+                            <img src="">
+                        </a>
+                    </td>
+                    <td><a href="#">{{ job.employer.nick }}</a></td>
+                    <td><strong>{{ job.money }}</strong> {{ job.currency }}</td>
+                    <td><button>{% trans %}Apply{% endtrans %}</button></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        {% trans %}No offers available in this country{% endtrans %}
+    {% endif %}
+{% endblock %}
+
+{% block bottomJS %}
+    <script>
+        $(function () {
+
+        });
+    </script>
+{% endblock %}

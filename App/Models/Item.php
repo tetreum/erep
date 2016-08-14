@@ -2,16 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Item
- * @package App\Models
- *
- * This class has 'id' field because Eloquent doesn't support composite keys...
- */
 
-class Item extends Model
+class Item
 {
     const RAW_FOOD = 1;
     const RAW_WEAPON = 2;
@@ -20,24 +13,76 @@ class Item extends Model
     const GUN = 5;
     const TANK = 6;
 
-    protected $fillable = ["uid", "item", "quality", "quantity"];
-    public $timestamps = false;
+    const TYPE_RAW = 1;
+    const TYPE_FOOD = 2;
+    const TYPE_WEAPON = 3;
 
-    public function isRaw ($id = null)
+    public static function getList ()
     {
-        $rawItems = [self::RAW_FOOD, self::RAW_HOUSE, self::RAW_WEAPON];
+        return [
+            [
+                "id" => 1,
+                "name" => "Raw food",
+                "description" => "Can be converted to food",
+                "type" => self::TYPE_RAW,
+                "canBeSold" => true,
+                "expires" => null,
+            ],
+            [
+                "id" => 2,
+                "name" => "Raw weapon",
+                "description" => "Can be converted to weapon",
+                "type" => self::TYPE_RAW,
+                "canBeSold" => true,
+                "expires" => null,
+            ],
+            [
+                "id" => 3,
+                "name" => "Raw house",
+                "description" => "Can be converted to house",
+                "type" => self::TYPE_RAW,
+                "canBeSold" => true,
+                "expires" => null,
+            ],
+            [
+                "id" => 4,
+                "name" => "Food",
+                "description" => "Eat to gain energy",
+                "type" => self::TYPE_FOOD,
+                "canBeSold" => true,
+                "expires" => null,
+            ],
+            [
+                "id" => 5,
+                "name" => "Gun",
+                "description" => "Kills people",
+                "type" => self::TYPE_WEAPON,
+                "canBeSold" => true,
+                "expires" => null,
+            ]
+        ];
+    }
 
-        if (empty($id)) {
-            $id = $this->id;
+    /**
+     * Simple wrapper of Eloquent Model as i may move this to db
+     * @param array $query
+     * @return array
+     */
+    public static function where (array $query)
+    {
+        $items = self::getList();
+        $list = [];
+
+        foreach ($items as $item)
+        {
+            foreach ($query as $k => $v) {
+                if ($item[$k] != $v) {
+                    continue;
+                }
+            }
+            $list[] = $item;
         }
 
-        if (empty($id)) {
-            return false;
-        }
-
-        if (in_array($id, $rawItems)) {
-            return true;
-        }
-        return false;
+        return $list;
     }
 }

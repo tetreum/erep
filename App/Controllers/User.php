@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\Company;
 use App\Models\CompanyType;
 use App\Models\Country;
-use App\Models\Item;
+use App\Models\UserItem;
 use App\Models\Money;
 use App\Models\WorkOffer;
 use App\System\App;
@@ -17,7 +17,7 @@ class User extends Controller
 {
     public function showStorage ()
     {
-        $items = Item::where([
+        $items = UserItem::where([
             "uid" => App::user()->getUid()
         ])->get()->toArray();
 
@@ -30,7 +30,7 @@ class User extends Controller
     {
         $list = $_POST["list"];
         $uid = App::user()->getUid();
-        $itemModel = new Item();
+        $itemModel = new UserItem();
 
         foreach ($list as &$company) {
             $company = (int)$company;
@@ -67,7 +67,7 @@ class User extends Controller
                 if ($quantity < 0)
                 {
                     // check if user has more in his inventory
-                    $item = Item::where([
+                    $item = UserItem::where([
                         "uid" => $uid,
                         "item" => $product,
                         "quality" => $quality,
@@ -86,7 +86,7 @@ class User extends Controller
         {
             foreach ($qualities as $quality => $quantity)
             {
-                $item = Item::firstOrNew([
+                $item = UserItem::firstOrNew([
                     "uid" => $uid,
                     "item" => $product,
                     "quality" => $quality,

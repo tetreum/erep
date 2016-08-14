@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\Country;
 use App\Models\Item;
+use App\Models\UserItem;
 use App\Models\ItemOffer;
 use App\System\App;
 use App\System\AppException;
@@ -10,6 +12,35 @@ use App\System\Controller;
 
 class Market extends Controller
 {
+    public function showItemOffers ()
+    {
+        $page = (int)$_GET["page"];
+        $country = (int)$_GET["country"];
+        $limitPerPage = 15;
+
+        $offers = ItemOffer::where([
+            "country" => $country,
+            "worker" => null
+        ])->paginate($limitPerPage);
+
+        return $this->render('market/itemList.html.twig', [
+            "offers" => $offers,
+            "countryList" => Country::all()->toArray()
+        ]);
+    }
+
+    public function showMarketplaceHome ()
+    {
+        $products = Item::where([
+            "canBeSold" => true
+        ]);
+
+        return $this->render('market/marketplaceHome.html.twig', [
+            "products" => $products,
+            "countryList" => Country::all()->toArray()
+        ]);
+    }
+
     public function sell ()
     {
         $item = (int)$_POST["item"];
@@ -29,7 +60,7 @@ class Market extends Controller
         ];
 
         // check if user has the item
-        $item = Item::where($query)->first();
+        $item = UserItem::where($query)->first();
 
         if (!$item || $item->quantity < $quantity) {
             throw new AppException(AppException::INVALID_DATA);

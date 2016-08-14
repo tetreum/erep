@@ -21,7 +21,7 @@ class WorkOffers extends Controller
             "worker" => null
         ])->paginate($limitPerPage);
 
-        return $this->render('work/list.html.twig', [
+        return $this->render('market/workList.html.twig', [
             "offers" => $offers,
             "countryList" => Country::all()->toArray()
         ]);
