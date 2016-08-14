@@ -157,6 +157,10 @@ $app->group('/api', function () use ($app)
             $ct = new Market($app, $response);
             $ct->json('sell');
         });
+        $app->post('/buy', function($request, $response, $args) use ($app) {
+            $ct = new Market($app, $response);
+            $ct->json('buy');
+        });
     });
 
 })->add($ensureLogged);

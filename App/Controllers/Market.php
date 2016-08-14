@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Country;
 use App\Models\Item;
+use App\Models\Money;
 use App\Models\UserItem;
 use App\Models\ItemOffer;
 use App\System\App;
@@ -44,6 +45,59 @@ class Market extends Controller
             "products" => $products,
             "countryList" => Country::all()->toArray()
         ]);
+    }
+
+    public function buy ()
+    {
+        $id = (int)$_POST["id"];
+        $quantity = (int)$_POST["quantity"];
+        $uid = App::user()->getUid();
+
+        if ($id < 1 || $quantity < 1) {
+            throw new AppException(AppException::INVALID_DATA);
+        }
+
+        $offer = ItemOffer::with("country")->where([
+            "id" => $id
+        ])->first();
+
+        if (!$offer || $offer->quantity < $quantity) {
+            throw new AppException(AppException::INVALID_DATA);
+        }
+
+        $money = App::user()->getMoney(true);
+        $cost = $offer->price * $quantity;
+
+        if ($money[$offer->country->currency] < $cost) {
+            throw new AppException(AppException::NO_ENOUGH_MONEY);
+        }
+
+        $sellerMoney = Money::where(["uid" => $offer->uid])->first();
+        $sellerMoney[$offer->country->currency] += $cost;
+        $sellerMoney->save();
+
+        $buyerMoney = Money::where(["uid" => $uid])->first();
+        $buyerMoney[$offer->country->currency] -= $cost;
+        $buyerMoney->save();
+
+        // update the offer stock
+        $newQuantity = $offer->quantity - $quantity;
+
+        if ($newQuantity == 0) {
+            $offer->delete();
+        } else {
+            $offer->quantity -= $quantity;
+            $offer->save();
+        }
+
+        $item = UserItem::firstOrNew([
+            "uid" => $uid,
+            "item" => $offer->item,
+            "quality" => $offer->quality,
+        ]);
+        $item->quantity += $quantity;
+
+        return $item->save();
     }
 
     public function sell ()
