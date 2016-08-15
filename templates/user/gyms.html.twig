@@ -1,0 +1,36 @@
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+    <table>
+        <tr>
+            <td>{% trans %}Quality{% endtrans %}</td>
+            <td>{% trans %}Strength{% endtrans %}</td>
+            <td>{% trans %}Energy{% endtrans %}</td>
+            <td>{% trans %}Cost{% endtrans %}</td>
+            <td></td>
+        </tr>
+    {% for quality, gym in gyms %}
+        <tr>
+            <td><img src="/img/gyms/{{ gym.quality }}.png"> {% filter upper %}{{ quality }}{% endfilter %}</td>
+            <td><img class="icon small" src="/img/icons/strength.png"> + {{ gym.strength }}</td>
+            <td>- {{ gym.energy }}</td>
+            <td>{{ gym.cost }} <img class="icon small" src="/img/icons/gold.png"></td>
+            <td>
+                {% if gym.hasTrainedToday %}
+                    <button disabled>{% trans %}Train{% endtrans %}</button>
+                {% else %}
+                    <button data-action="train" data-quality="{{ gym.quality }}">{% trans %}Train{% endtrans %}</button>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}
+
+{% block bottomJS %}
+    <script>
+        $(function () {
+            peque.gym.init();
+        });
+    </script>
+{% endblock %}

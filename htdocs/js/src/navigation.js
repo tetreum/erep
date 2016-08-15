@@ -107,6 +107,9 @@ peque.navigation = function ()
             case 11: // unauthorized request (probably session expired)
                 peque.navigation.redirect("logout?redirect=" + encodeURIComponent(location.pathname + location.search));
                 break;
+            case 6: // no enough money
+                showError("You cant afford that");
+                break;
             case 4: // missing params
             case 5: // action denied
                 showError(data.message);

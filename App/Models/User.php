@@ -11,6 +11,6 @@ class User extends Model
     const STATUS_PENDING = 0;
     const MIN_PASSWORD_LENGTH = 7;
 
-    protected $fillable = ["email", "nick", "password", "status", "region", "referrer", "xp", "level"];
+    protected $fillable = ["email", "nick", "password", "status", "region", "strength", "referrer", "xp", "level"];
 
 }

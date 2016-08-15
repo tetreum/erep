@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Company;
 use App\Models\CompanyType;
 use App\Models\Country;
+use App\Models\UserGym;
 use App\Models\UserItem;
 use App\Models\Money;
 use App\Models\WorkOffer;
@@ -15,6 +16,66 @@ use \App\Models\User as UserModel;
 
 class User extends Controller
 {
+    public function showGyms ()
+    {
+        $gyms = UserGym::where([
+            "uid" => App::user()->getUid()
+        ])->first()->toArray();
+
+        $gymList = UserGym::$data;
+
+        foreach ($gymList as $k => &$gym)
+        {
+            $gym["quality"] = (int)str_replace("q", "", $k);
+            $gym["hasTrainedToday"] = false;
+            $lastTime = date("Y-m-d", strtotime($gyms[$k]));
+
+            if ($lastTime == date("Y-m-d")) {
+                $gym["hasTrainedToday"] = true;
+            }
+        }
+
+        return $this->render('user/gyms.html.twig', [
+            "gyms" => $gymList,
+        ]);
+    }
+
+    public function train ()
+    {
+        $uid = App::user()->getUid();
+        $quality = (int)$_POST["quality"];
+
+        if ($quality < 1 || $quality > 4) {
+            throw new AppException(AppException::INVALID_DATA);
+        }
+
+        $gyms = UserGym::where([
+            "uid" => $uid
+        ])->first();
+
+        if ($gyms->hasTrainedToday($quality)) {
+            throw new AppException(AppException::INVALID_DATA);
+        }
+
+        $gymDetails = UserGym::$data["q$quality"];
+
+        $userMoney = App::user()->getMoney();
+
+        if ($userMoney->gold < $gymDetails["cost"]) {
+            throw new AppException(AppException::NO_ENOUGH_MONEY);
+        }
+
+        $gyms["q$quality"] = date("Y-m-d");
+        $gyms->save();
+
+        $user = UserModel::where([
+            "id" => $uid
+        ])->first();
+
+        $user->strength += $gymDetails["strength"];
+        return $user->save();
+    }
+
     public function showStorage ()
     {
         $items = UserItem::where([

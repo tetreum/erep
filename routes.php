@@ -71,6 +71,11 @@ $app->group('', function () use ($app)
         $ct->exec('showStorage');
     })->setName('storage');
 
+    $app->get('/gyms', function($request, $response, $args) use ($app) {
+        $ct = new User($app, $response);
+        $ct->exec('showGyms');
+    })->setName('gyms');
+
     $app->group('/marketplace', function () use ($app)
     {
         $app->get('', function($request, $response, $args) use ($app) {
