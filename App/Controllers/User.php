@@ -19,7 +19,13 @@ class User extends Controller
     {
         $gyms = UserGym::where([
             "uid" => App::user()->getUid()
-        ])->first()->toArray();
+        ])->first();
+
+        if ($gyms) {
+            $gyms = $gyms->toArray();
+        } else {
+            $gyms = [];
+        }
 
         $gymList = UserGym::$data;
 
@@ -221,6 +227,10 @@ class User extends Controller
 
             // create user's entry in money db
             Money::create([
+                "uid" => $user["id"]
+            ]);
+
+            UserGym::create([
                 "uid" => $user["id"]
             ]);
         } catch (\Exception $e) {

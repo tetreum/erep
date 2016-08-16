@@ -11,6 +11,7 @@
         <a href="{{ path_for('workOffers') }}">¡Find a job!</a>
     {% endif %}
     <h1>My companies</h1>
+    {% if companies|length > 0 %}
     <table id="my-companies" class="align-images">
         <tr>
             <th><a href="{{ path_for('createCompany') }}">Create a new company</a></th>
@@ -35,17 +36,24 @@
     </table>
     <div>
         <div style="display: inline-block;width: 40%;">
-            Produced raw:<br>
-            <ul>
-                <li data-product="1"><img class="icon small" src="/img/products/1.png"> 0</li>
-                <li data-product="2"><img class="icon small" src="/img/products/2.png"> 0</li>
-                <li data-product="3"><img class="icon small" src="/img/products/3.png"> 0</li>
-            </ul>
+            {# ToDo #}
+            <div style="display: none">
+                Produced raw:<br>
+                <ul>
+                    <li data-product="1"><img class="icon small" src="/img/products/1.png"> 0</li>
+                    <li data-product="2"><img class="icon small" src="/img/products/2.png"> 0</li>
+                    <li data-product="3"><img class="icon small" src="/img/products/3.png"> 0</li>
+                </ul>
+            </div>
         </div>
         <div style="display: inline-block">
             <button data-action="work-as-manager">Start production</button>
         </div>
     </div>
+    {% else %}
+        <h3>¡You don't have any!</h3>
+        <a href="{{ path_for('createCompany') }}">Create a new company</a>
+    {% endif %}
 <template id="tpl-work-result">
 <div class="work-result">
     <img src=""><br>
