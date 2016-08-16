@@ -193,6 +193,16 @@ $app->group('/api', function () use ($app)
             $ct = new PoliticalParty($app, $response);
             $ct->json('create');
         });
+
+        $app->post('/join', function($request, $response, $args) use ($app) {
+            $ct = new PoliticalParty($app, $response);
+            $ct->json('join');
+        });
+
+        $app->post('/leave', function($request, $response, $args) use ($app) {
+            $ct = new PoliticalParty($app, $response);
+            $ct->json('leave');
+        });
     });
 
 })->add($ensureLogged);

@@ -2,6 +2,9 @@
 
 {% block content %}
     <h1>{{ party.name }}</h1>
+    <div id="party-profile" data-id="{{ party.id }}">
+
+    </div>
     <p>{{ party.description }}</p>
     {% if party.affiliation %}
         <button data-action="leave-party">Leave party</button>
@@ -12,7 +15,7 @@
 {% block bottomJS %}
     <script>
         $(function () {
-            //peque.party.init();
+            peque.party.init();
         });
     </script>
 {% endblock %}

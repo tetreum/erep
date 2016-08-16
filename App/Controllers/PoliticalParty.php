@@ -12,8 +12,62 @@ use App\System\Utils;
 
 class PoliticalParty extends Controller
 {
+    public function join ()
+    {
+        $id = (int)$_POST["id"];
+
+        if ($id < 1) {
+            throw new AppException(AppException::INVALID_DATA);
+        }
+
+        $created = PartyMember::create([
+            "party" => $id,
+            "uid" => App::user()->getUid(),
+            "level" => PartyMember::LEVEL_AFFILIATED,
+        ]);
+
+        if ($created) {
+            return true;
+        }
+
+        throw new AppException(AppException::ACTION_FAILED);
+    }
+
+    public function leave ()
+    {
+        $politicalParty = App::user()->getPoliticalParty();
+
+        if (!$politicalParty) {
+            throw new AppException(AppException::ACTION_FAILED);
+        }
+
+        // check if he's the party creator
+        $party = PartyModel::where([
+            "id" => $politicalParty->id
+        ]);
+
+        // if he's the owner, remove the entire party and their affiliates
+        if ($party->uid == App::user()->getUid())
+        {
+            PartyMember::where([
+                "party" => $party->id
+            ])->delete();
+
+            $party->delete();
+        } else {
+            $politicalParty->delete();
+        }
+
+
+        return true;
+    }
+
     public function showParty ($id)
     {
+        if ($id < 1) {
+            throw new AppException(AppException::INVALID_DATA);
+        }
+
         $party = PartyModel::where([
             "id" => $id
         ])->first();

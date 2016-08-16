@@ -1,6 +1,37 @@
 peque.party = function ()
 {
     'use strict';
+    var id;
+
+    var init = function ()
+    {
+        id = $('#party-profile').data("id");
+
+        $('[data-action="leave-party"]').on('click', leave);
+        $('[data-action="join-party"]').on('click', join);
+    };
+
+    var leave = function ()
+    {
+        peque.api("party/leave", {id: id}, function (data) {
+            if (data.error > 0) {
+                return false;
+            }
+
+            peque.navigation.redirect("/");
+        });
+    };
+
+    var join = function ()
+    {
+        peque.api("party/join", {id: id}, function (data) {
+            if (data.error > 0) {
+                return false;
+            }
+
+            peque.navigation.reload();
+        });
+    };
 
     var initCreationForm = function ()
     {
@@ -26,6 +57,7 @@ peque.party = function ()
     };
 
     return {
+        init: init,
         initCreationForm: initCreationForm
     };
 }();
