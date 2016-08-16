@@ -59,7 +59,6 @@ peque.company = function ()
                             name += " +";
                         } else {
                             $template.addClass("background-red");
-                            name += " -";
                         }
                         $template.find("img").attr("src", "/img/products/" + item + ".png");
                         $template.find("[data-id=quantity]").html(name + quantity.toString());

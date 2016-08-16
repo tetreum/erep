@@ -18,8 +18,6 @@ class UserItem extends Model
 
     public function isRaw ($id = null)
     {
-        $rawItems = [self::RAW_FOOD, self::RAW_HOUSE, self::RAW_WEAPON];
-
         if (empty($id)) {
             $id = $this->id;
         }
@@ -28,7 +26,9 @@ class UserItem extends Model
             return false;
         }
 
-        if (in_array($id, $rawItems)) {
+        if (in_array($id, Item::where([
+            "type" => Item::TYPE_RAW
+        ]))) {
             return true;
         }
         return false;
