@@ -15,22 +15,4 @@ class UserItem extends Model
 {
     protected $fillable = ["uid", "item", "quality", "quantity"];
     public $timestamps = false;
-
-    public function isRaw ($id = null)
-    {
-        if (empty($id)) {
-            $id = $this->id;
-        }
-
-        if (empty($id)) {
-            return false;
-        }
-
-        if (in_array($id, Item::where([
-            "type" => Item::TYPE_RAW
-        ]))) {
-            return true;
-        }
-        return false;
-    }
 }

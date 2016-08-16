@@ -77,7 +77,7 @@ class Item
         {
             foreach ($query as $k => $v) {
                 if ($item[$k] != $v) {
-                    continue;
+                    continue 2;
                 }
             }
             $list[] = $item;

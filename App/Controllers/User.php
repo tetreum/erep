@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Company;
 use App\Models\CompanyType;
 use App\Models\Country;
+use App\Models\Item;
 use App\Models\UserGym;
 use App\Models\UserItem;
 use App\Models\Money;
@@ -117,7 +118,7 @@ class User extends Controller
             }
 
             // set raw products quality to 0 (none) as they dont have qualities
-            if ($itemModel->isRaw(CompanyType::$types[$company["type"]]["product"])) {
+            if (Item::where(["id" => CompanyType::$types[$company["type"]]["product"]])[0]["type"] == Item::TYPE_RAW) {
                 $quality = 0;
             } else {
                 $quality = $company["quality"];

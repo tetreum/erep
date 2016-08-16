@@ -108,7 +108,10 @@ peque.navigation = function ()
                 peque.navigation.redirect("logout?redirect=" + encodeURIComponent(location.pathname + location.search));
                 break;
             case 6: // no enough money
-                showError("You cant afford that");
+                showError("You can't afford that");
+                break;
+            case 7: // no enough resources
+                showError("You don't have enough resources");
                 break;
             case 4: // missing params
             case 5: // action denied
