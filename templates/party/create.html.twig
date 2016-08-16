@@ -1,0 +1,23 @@
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+    <h1>Create a political party</h1>
+    <span class="info"><i class="fa fa-thumb-tack" aria-hidden="true"></i> Creating a new political party costs {{ creationCost }} <img class="icon small" src="/img/icons/gold.png"></span>
+
+    <form id="party-creation-form" method="post">
+        <label>
+            Name: <input name="name" type="text">
+        </label>
+        <label>
+            Electoral program:<br> <textarea name="description"></textarea>
+        </label>
+        <button>Create for {{ creationCost }} <img class="icon small" src="/img/icons/gold.png"></button>
+    </form>
+{% endblock %}
+{% block bottomJS %}
+    <script>
+        $(function () {
+            peque.party.initCreationForm();
+        });
+    </script>
+{% endblock %}

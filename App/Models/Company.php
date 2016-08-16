@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
-    protected $fillable = ["id", "uid", "type", "quality", "last_work"];
+    protected $fillable = ["uid", "type", "quality", "last_work"];
 
     public function hasManagerWorkedToday ()
     {

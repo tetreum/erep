@@ -1,0 +1,14 @@
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+    <h1>{{ party.name }}</h1>
+    <p>{{ party.description }}</p>
+    <button data-action="leave-party">Leave party</button>
+{% endblock %}
+{% block bottomJS %}
+    <script>
+        $(function () {
+            //peque.party.init();
+        });
+    </script>
+{% endblock %}

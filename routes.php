@@ -4,6 +4,7 @@ use \App\Controllers\User;
 use \App\Controllers\Home;
 use \App\Controllers\Company;
 use \App\Controllers\Market;
+use \App\Controllers\PoliticalParty;
 use \App\Controllers\WorkOffers;
 
 $ensureLogged = function($request, $response, $next) use ($app)
@@ -89,6 +90,24 @@ $app->group('', function () use ($app)
         });
     });
 
+    $app->group('/party', function () use ($app)
+    {
+        $app->get('', function($request, $response, $args) use ($app) {
+            $ct = new PoliticalParty($app, $response);
+            $ct->exec('showList');
+        })->setName('partyList');
+
+        $app->get('/create', function($request, $response, $args) use ($app) {
+            $ct = new PoliticalParty($app, $response);
+            $ct->exec('showCreationForm');
+        })->setName('partyCreationForm');
+
+        $app->get('/{id}/{slug}', function($request, $response, $args) use ($app) {
+            $ct = new PoliticalParty($app, $response);
+            $ct->exec('showParty', (int)$args["id"]);
+        })->setName('party');
+    });
+
 })->add($ensureLogged);
 
 
@@ -165,6 +184,14 @@ $app->group('/api', function () use ($app)
         $app->post('/buy', function($request, $response, $args) use ($app) {
             $ct = new Market($app, $response);
             $ct->json('buy');
+        });
+    });
+
+    $app->group('/party', function () use ($app)
+    {
+        $app->post('/create', function($request, $response, $args) use ($app) {
+            $ct = new PoliticalParty($app, $response);
+            $ct->json('create');
         });
     });
 

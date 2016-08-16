@@ -1,0 +1,31 @@
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+    <h1>Political parties</h1>
+    <a href="{{ path_for('partyCreationForm') }}">Create party</a>
+    {% if list|length > 0 %}
+    <table class="align-images">
+        <thead>
+        <tr>
+            <th>{% trans %}Name{% endtrans %}</th>
+            <th>{% trans %}Members{% endtrans %}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for party in list %}
+            <tr>
+                <td>
+                    <a href="{{ path_for('party', {'id': party.id, 'slug': party.name}) }}">
+                        <img style="width: 100px;height: 100px;" src="https://www.allriot.com/sites/default/files/styles/product_slider/public/C-matrix-pop-culture-tee-us-election-16-funny-political-tshirt.jpg?itok=q07IawCx">
+                        {{ party.name }}
+                    </a>
+                </td>
+                <td>0</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>There are no parties in your country yet</p>
+    {% endif %}
+{% endblock %}

@@ -8,6 +8,28 @@ class Utils
     const METHOD_POST = "post";
     const METHOD_PUT = "put";
 
+    public static function sanitizeString ($str, $applyCensorship = false)
+    {
+        $censoredWords = [
+            "caca",
+            "hitler",
+            "nazi",
+            "nazis"
+        ];
+        $str = strip_tags((string)$str);
+
+        if ($applyCensorship)
+        {
+            foreach ($censoredWords as $word) {
+                if (strpos($str, $word) !== false) {
+                    throw new AppException(AppException::INVALID_DATA);
+                }
+            }
+        }
+
+        return $str;
+    }
+
     /**
      * @param \stdClass $response
      */
