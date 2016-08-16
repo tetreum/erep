@@ -16,10 +16,18 @@ class PoliticalParty extends Controller
     {
         $party = PartyModel::where([
             "id" => $id
-        ])->first()->toArray();
+        ])->first();
 
         if (!$party) {
             throw new AppException(AppException::INVALID_DATA);
+        }
+        $party = $party->toArray();
+
+        // check user affiliation
+        $myAffiliation = App::user()->getPoliticalParty();
+
+        if ($myAffiliation) {
+            $party["affiliation"] = $myAffiliation->toArray();
         }
 
         return $this->render('party/profile.html.twig', [

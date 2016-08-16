@@ -2,6 +2,7 @@
 
 namespace App\System;
 
+use App\Models\PartyMember;
 use App\Models\UserItem;
 use App\Models\Money;
 use App\Models\Region;
@@ -131,6 +132,16 @@ class Session
     {
         return WorkOffer::where([
             "worker" => App::session()->getUid()
+        ])->first();
+    }
+
+    /**
+     * @return PartyMember
+     */
+    public function getPoliticalParty ()
+    {
+        return PartyMember::where([
+            "uid" => App::session()->getUid()
         ])->first();
     }
 

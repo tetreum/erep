@@ -8,7 +8,6 @@ use App\Models\Country;
 use App\Models\UserGym;
 use App\Models\UserItem;
 use App\Models\Money;
-use App\Models\WorkOffer;
 use App\System\App;
 use App\System\AppException;
 use App\System\Controller;

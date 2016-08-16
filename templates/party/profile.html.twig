@@ -3,7 +3,11 @@
 {% block content %}
     <h1>{{ party.name }}</h1>
     <p>{{ party.description }}</p>
-    <button data-action="leave-party">Leave party</button>
+    {% if party.affiliation %}
+        <button data-action="leave-party">Leave party</button>
+    {% else %}
+        <button data-action="join-party">Join party</button>
+    {% endif %}
 {% endblock %}
 {% block bottomJS %}
     <script>
