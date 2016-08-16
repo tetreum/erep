@@ -20,13 +20,7 @@ class User extends Controller
     {
         $gyms = UserGym::where([
             "uid" => App::user()->getUid()
-        ])->first();
-
-        if ($gyms) {
-            $gyms = $gyms->toArray();
-        } else {
-            $gyms = [];
-        }
+        ])->first()->toArray();
 
         $gymList = UserGym::$data;
 

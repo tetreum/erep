@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\UserGym;
 use App\System\App;
 use App\System\AppException;
 use App\System\Controller;
@@ -34,8 +35,14 @@ class Home extends Controller
             $jobData["hasWorkedToday"] = $job->hasWorkedToday();
         }
 
+        $userGyms = UserGym::where([
+            "uid" => App::user()->getUid()
+        ])->first();
+
+
         return $this->render('home.html.twig', [
-            "job" => $jobData
+            "job" => $jobData,
+            "hasTrainedToday" => $userGyms->hasTrainedToday(1)
         ]);
     }
 }

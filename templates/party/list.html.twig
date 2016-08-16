@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>Political parties</h1>
-    <a href="{{ path_for('partyCreationForm') }}">Create party</a>
+    <a class="button" href="{{ path_for('partyCreationForm') }}">Create party</a>
     {% if list|length > 0 %}
     <table class="align-images">
         <thead>

@@ -3,13 +3,22 @@
 {% block content %}
     <div>
         <center><h1>¡Welcome to this temporal home!</h1></center>
+        {% if not hasTrainedToday %}
+            <div>
+                ¡You haven't trained yet!
+                <a class="button" href="{{ path_for('gyms') }}">Train</a>
+            </div>
+        {% endif %}
+        <br>
         {% if job.hasJob %}
             {% if not job.hasWorkedToday %}
-                <a href="">¡Time to work mate!</a>
+                <a class="button" href="#">¡Time to work mate!</a>
             {% endif %}
         {% else %}
-            You are unemployed
-            <a href="{{ path_for('workOffers') }}">¡Find a job!</a>
+            <div>
+                You are unemployed
+                <a class="button" href="{{ path_for('workOffers') }}">¡Find a job!</a>
+            </div>
         {% endif %}
     </div>
 {% endblock %}

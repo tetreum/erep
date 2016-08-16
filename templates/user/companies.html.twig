@@ -8,13 +8,14 @@
         {% endif %}
     {% else %}
         You are unemployed
-        <a href="{{ path_for('workOffers') }}">¡Find a job!</a>
+        <a href="{{ path_for('workOffers') }}">¡Find a job!</a><br>
     {% endif %}
-    <h1>My companies</h1>
+    <h1 style="display: inline-block;">My companies</h1>
+    <a href="{{ path_for('createCompany') }}" class="button">Create a new company</a>
     {% if companies|length > 0 %}
     <table id="my-companies" class="align-images">
         <tr>
-            <th><a href="{{ path_for('createCompany') }}">Create a new company</a></th>
+            <th></th>
             <th><label><input type="checkbox" data-action="check-all">Work as manager</label></th>
             <th>Employees</th>
             <th><a href="">+</a> Consumes</th>
