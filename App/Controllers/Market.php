@@ -65,10 +65,10 @@ class Market extends Controller
             throw new AppException(AppException::INVALID_DATA);
         }
 
-        $money = App::user()->getMoney(true);
+        $buyerMoney = App::user()->getMoney();
         $cost = $offer->price * $quantity;
 
-        if ($money[$offer->country->currency] < $cost) {
+        if ($buyerMoney[$offer->country->currency] < $cost) {
             throw new AppException(AppException::NO_ENOUGH_MONEY);
         }
 
@@ -76,7 +76,6 @@ class Market extends Controller
         $sellerMoney[$offer->country->currency] += $cost;
         $sellerMoney->save();
 
-        $buyerMoney = Money::where(["uid" => $uid])->first();
         $buyerMoney[$offer->country->currency] -= $cost;
         $buyerMoney->save();
 

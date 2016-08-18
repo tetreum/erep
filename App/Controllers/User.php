@@ -59,10 +59,8 @@ class User extends Controller
 
         $gymDetails = UserGym::$data["q$quality"];
 
-        $userMoney = App::user()->getMoney();
-
-        if ($userMoney->gold < $gymDetails["cost"]) {
-            throw new AppException(AppException::NO_ENOUGH_MONEY);
+        if (!App::user()->buy($gymDetails["cost"], "gold", "TRAIN_Q$quality")) {
+            throw new AppException(AppException::ACTION_FAILED);
         }
 
         $gyms["q$quality"] = date("Y-m-d");

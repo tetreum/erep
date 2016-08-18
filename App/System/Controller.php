@@ -61,9 +61,13 @@ abstract class Controller
     {
         $vars["controller"] = str_replace('App\\Controllers\\', "", get_class($this));
 
-        if (App::session()->isLogged()) {
+        if (App::session()->isLogged())
+        {
             $user = App::session()->getUser();
-            $user["money"] = App::session()->getMoney();
+
+            $user["money"] = App::session()->getMoney()->toArray();
+            unset($user["money"]["uid"]);
+
             $user["location"] = App::session()->getLocation();
             $vars["my"] = $user;
         }

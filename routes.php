@@ -53,6 +53,7 @@ $app->group('', function () use ($app)
     })->setName('workOffers');
 
     $app->get('/wars', function($request, $response, $args) use ($app) {
+        die("ToDo");
         $ct = new Home($app, $response);
         $ct->exec('showWarList');
     })->setName('wars');

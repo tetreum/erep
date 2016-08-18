@@ -105,15 +105,11 @@ class Session
 
     /**
      * Gets user's money
-     * @return mixed
+     * @return Money
      */
-    public function getMoney ($rewriteCache = false)
+    public function getMoney ()
     {
-        $currencies = Money::where("uid", $this->getUid())->first()->toArray();
-
-        unset($currencies["uid"]);
-
-        return $currencies;
+        return Money::where("uid", $this->getUid())->first();
     }
 
     /*
@@ -167,20 +163,19 @@ class Session
             $currency = $this->getLocation()["country"]["currency"];
         }
 
-        $money = Money::where("uid", $this->getUid())->first();
+        $money = $this->getMoney();
 
         if (empty($money[$currency]) || $money[$currency] < $amount) {
             throw new AppException(AppException::NO_ENOUGH_MONEY);
         }
 
         $money[$currency] -= $amount;
-        $saved = $money->save();
 
-        if ($saved) {
-            $this->getMoney(true);
+        if ($money->save()) {
+            return true;
         }
 
-        return $saved;
+        return false;
     }
 
     /**
