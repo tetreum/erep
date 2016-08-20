@@ -63,6 +63,10 @@ class Item
         ];
     }
 
+    public static function find ($id) {
+        return self::where(["id" => $id])[0];
+    }
+
     /**
      * Simple wrapper of Eloquent Model as i may move this to db
      * @param array $query

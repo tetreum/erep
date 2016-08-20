@@ -19,8 +19,23 @@ class Market extends Controller
         $country = (int)$_GET["country"];
         $limitPerPage = 15;
 
+        if ($item < 1 || $quality < 0) {
+            throw new AppException(AppException::INVALID_DATA);
+        }
+
         if ($country < 1) {
             $country = 1;
+        }
+
+        $itemInfo = Item::find($item);
+
+        if (!$itemInfo) {
+            throw new AppException(AppException::INVALID_DATA);
+        }
+
+        // force quality 0 for raw materials
+        if ($itemInfo["type"] == Item::TYPE_RAW) {
+            $quality = 0;
         }
 
         $offers = ItemOffer::with(['seller', 'country'])->where([
