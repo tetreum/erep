@@ -11,6 +11,8 @@ class AppException extends \Exception
     const ACTION_FAILED = 5;
     const NO_ENOUGH_MONEY = 6;
     const NO_ENOUGH_RESOURCES = 7;
+    const ACCESS_DENIED = 8;
+
 
     private static $description = [
         self::INVALID_DATA => "invalid data",
@@ -20,6 +22,7 @@ class AppException extends \Exception
         self::ACTION_FAILED => "action could not be done",
         self::NO_ENOUGH_MONEY => "no enough money",
         self::NO_ENOUGH_RESOURCES => "no enough resources",
+        self::ACCESS_DENIED => "access denied",
     ];
 
     public function __construct($constant, $code = 0, \Exception $previous = null) {
