@@ -4,7 +4,7 @@ namespace App\System;
 
 use App\Models\PartyMember;
 use App\Models\UserItem;
-use App\Models\Money;
+use App\Models\UserMoney;
 use App\Models\Region;
 use App\Models\WorkOffer;
 
@@ -105,11 +105,11 @@ class Session
 
     /**
      * Gets user's money
-     * @return Money
+     * @return UserMoney
      */
     public function getMoney ()
     {
-        return Money::where("uid", $this->getUid())->first();
+        return UserMoney::where("uid", $this->getUid())->first();
     }
 
     /*

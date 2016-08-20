@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Country;
 use App\Models\Item;
-use App\Models\Money;
+use App\Models\UserMoney;
 use App\Models\UserItem;
 use App\Models\ItemOffer;
 use App\System\App;
@@ -87,7 +87,7 @@ class Market extends Controller
             throw new AppException(AppException::NO_ENOUGH_MONEY);
         }
 
-        $sellerMoney = Money::where(["uid" => $offer->uid])->first();
+        $sellerMoney = UserMoney::where(["uid" => $offer->uid])->first();
         $sellerMoney[$offer->country->currency] += $cost;
         $sellerMoney->save();
 

@@ -10,7 +10,7 @@ use App\Models\CountryFunds;
 use App\Models\CountryRelation;
 use App\Models\LawProposal;
 use App\Models\LawVote;
-use App\Models\Money;
+use App\Models\UserMoney;
 use App\Models\Region;
 use App\Models\RegionConnection;
 use App\Models\Tax;
@@ -261,7 +261,7 @@ class Congress extends Controller
                     $isAlly = CountryRelation::where([
                         "country" => $lawsCountry,
                         "target" => $country,
-                        "relation" => "ally"
+                        "relation" => CountryRelation::RELATION_ALLY
                     ])->first();
 
                     if ($isAlly) {
@@ -271,7 +271,7 @@ class Congress extends Controller
                     $isEnemy = CountryRelation::where([
                         "country" => $lawsCountry,
                         "target" => $country,
-                        "relation" => "enemy"
+                        "relation" => CountryRelation::RELATION_ENEMY
                     ])->first();
 
                     if ($isEnemy) {
@@ -362,21 +362,21 @@ class Congress extends Controller
                 CountryRelation::where([
                     "country" => $lawProposal->country,
                     "target" => $lawProposal->target_country,
-                    "relation" => "enemy"
+                    "relation" => CountryRelation::RELATION_ENEMY
                 ])->delete();
                 break;
             case self::NATURAL_ENEMY:
                 CountryRelation::create([
                     "country" => $lawProposal->country,
                     "target" => $lawProposal->target_country,
-                    "relation" => "enemy"
+                    "relation" => CountryRelation::RELATION_ENEMY
                 ]);
                 break;
             case self::MUTUAL_PROTECTION_PACT:
                 CountryRelation::create([
                     "country" => $lawProposal->country,
                     "target" => $lawProposal->target_country,
-                    "relation" => "ally"
+                    "relation" => CountryRelation::RELATION_ALLY
                 ]);
                 break;
             case self::IMPEACHMENT:
@@ -405,7 +405,7 @@ class Congress extends Controller
                 $countryFunds[$lawProposal->currency] -= $lawProposal->amount;
                 $countryFunds->save();
 
-                $userMoney = Money::find($lawProposal->member)->first();
+                $userMoney = UserMoney::find($lawProposal->member)->first();
                 $userMoney[$lawProposal->currency] += $lawProposal->amount;
                 $userMoney->save();
                 break;

@@ -8,7 +8,7 @@ use App\Models\Country;
 use App\Models\Item;
 use App\Models\UserGym;
 use App\Models\UserItem;
-use App\Models\Money;
+use App\Models\UserMoney;
 use App\System\App;
 use App\System\AppException;
 use App\System\Controller;
@@ -219,7 +219,7 @@ class User extends Controller
             $user = UserModel::create($data);
 
             // create user's entry in money db
-            Money::create([
+            UserMoney::create([
                 "uid" => $user["id"]
             ]);
 

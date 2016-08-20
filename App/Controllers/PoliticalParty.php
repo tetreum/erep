@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\Money;
+use App\Models\UserMoney;
 use App\Models\PartyMember;
 use App\System\App;
 use App\System\AppException;
@@ -122,7 +122,7 @@ class PoliticalParty extends Controller
         }
 
         // check if user can pay the fee
-        $userMoney = Money::where([
+        $userMoney = UserMoney::where([
             "uid" => $uid
         ])->first();
 
