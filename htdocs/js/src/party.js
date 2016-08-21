@@ -9,6 +9,18 @@ peque.party = function ()
 
         $('[data-action="leave-party"]').on('click', leave);
         $('[data-action="join-party"]').on('click', join);
+        $('[data-action="congress-apply"]').on('click', runForCongress);
+    };
+
+    var runForCongress = function ()
+    {
+        peque.api("congress/apply", function (data) {
+            if (data.error > 0) {
+                return false;
+            }
+
+            peque.navigation.redirect("/");
+        });
     };
 
     var leave = function ()

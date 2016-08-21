@@ -3,6 +3,7 @@
 use \App\Controllers\User;
 use \App\Controllers\Home;
 use \App\Controllers\Company;
+use \App\Controllers\Congress;
 use \App\Controllers\Market;
 use \App\Controllers\PoliticalParty;
 use \App\Controllers\WorkOffers;
@@ -109,6 +110,19 @@ $app->group('', function () use ($app)
         })->setName('party');
     });
 
+    $app->group('/congress', function () use ($app)
+    {
+        $app->get('', function($request, $response, $args) use ($app) {
+            $ct = new Congress($app, $response);
+            $ct->exec('showHome');
+        })->setName('congressHome');
+
+        $app->get('law-proposal/{id}', function($request, $response, $args) use ($app) {
+            $ct = new Congress($app, $response);
+            $ct->exec('showLawProposal', (int)$args["id"]);
+        })->setName('congressLaw');
+    });
+
 })->add($ensureLogged);
 
 
@@ -203,6 +217,14 @@ $app->group('/api', function () use ($app)
         $app->post('/leave', function($request, $response, $args) use ($app) {
             $ct = new PoliticalParty($app, $response);
             $ct->json('leave');
+        });
+    });
+
+    $app->group('/congress', function () use ($app)
+    {
+        $app->post('/apply', function($request, $response, $args) use ($app) {
+            $ct = new Congress($app, $response);
+            $ct->json('submitApplication');
         });
     });
 

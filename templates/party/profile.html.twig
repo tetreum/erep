@@ -11,6 +11,14 @@
     {% else %}
         <button data-action="join-party">Join party</button>
     {% endif %}
+
+    <div>
+        <h2>Congress</h2>
+
+        {% if party.affiliation %}
+            <button data-action="congress-apply">Run for congress</button>
+        {% endif %}
+    </div>
 {% endblock %}
 {% block bottomJS %}
     <script>

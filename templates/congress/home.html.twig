@@ -1,0 +1,53 @@
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+    <h1>Congress</h1>
+    <button data-action="resign">Resign</button>
+
+    Propose a law:
+    <form id="propose-law" method="post">
+        <select name="type" required>
+            <option value="6">Transfer funds</option>
+            <option value="2">Mutual protection pact</option>
+            <option value="3">Work tax</option>
+            <option value="4">Manager tax</option>
+            <option value="5">Impeachment</option>
+            <option value="1">Natural enemy</option>
+            <option value="7">Cease fire</option>
+        </select>
+        <label>
+            Reason:
+            <input type="text" max="300" required>
+        </label>
+        <select name="country">
+
+        </select>
+        <select name="currency">
+            <option value="gold">gold</option>
+            <option value="local">local</option>
+        </select>
+        <label>
+            Amount
+            <input name="amount" type="number">
+        </label>
+        <button>Propose</button>
+    </form>
+
+    <h2>Latest laws</h2>
+    <ul>
+        {% for law in laws %}
+        <li>
+            <a href="">
+                {{ law.type }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+{% block bottomJS %}
+    <script>
+        $(function () {
+            peque.congress.init();
+        });
+    </script>
+{% endblock %}

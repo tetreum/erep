@@ -21,25 +21,27 @@ use App\System\Input;
 
 class Congress extends Controller
 {
-    const NATURAL_ENEMY = 1;
-    const MUTUAL_PROTECTION_PACT = 2;
-    const WORK_TAX = 3;
-    const MANAGER_TAX = 4;
-    const IMPEACHMENT = 5;
-    const TRANSFER_FUNDS = 6;
-    const CEASE_FIRE = 7;
-
-    public $validLawTypes = [
-        self::NATURAL_ENEMY,
-        self::MUTUAL_PROTECTION_PACT,
-        self::WORK_TAX,
-        self::MANAGER_TAX,
-        self::IMPEACHMENT,
-        self::TRANSFER_FUNDS,
-        self::CEASE_FIRE
-    ];
-
     private $ownCountry = null;
+
+    public function showLawProposal ($id)
+    {
+        $law = LawProposal::find($id);
+
+        return $this->render('congress/law_proposal.html.twig', [
+            "law" => $law,
+        ]);
+    }
+
+    public function showHome ()
+    {
+        $latestLaws = LawProposal::where([
+            "country" => $this->getOwnCountry()
+        ])->get()->limit(15)->toArray();
+
+        return $this->render('congress/home.html.twig', [
+            "latestLaws" => $latestLaws,
+        ]);
+    }
 
     private function getOwnCountry ()
     {
@@ -244,20 +246,20 @@ class Congress extends Controller
         $uid = App::user()->getUid();
         $lawsCountry = $this->getOwnCountry();
 
-        if (!in_array($type, $this->validLawTypes) || empty($reason)) {
+        if (!in_array($type, LawProposal::$validLawTypes) || empty($reason)) {
             throw new AppException(AppException::INVALID_DATA);
         }
 
         // check the required vars for each law type
         switch ($type)
         {
-            case self::NATURAL_ENEMY:
-            case self::MUTUAL_PROTECTION_PACT:
+            case LawProposal::TYPE_NATURAL_ENEMY:
+            case LawProposal::TYPE_MUTUAL_PROTECTION_PACT:
                 if ($country < 1) {
                     throw new AppException(AppException::INVALID_DATA);
                 }
 
-                if ($type == self::NATURAL_ENEMY) {
+                if ($type == LawProposal::TYPE_NATURAL_ENEMY) {
                     $isAlly = CountryRelation::where([
                         "country" => $lawsCountry,
                         "target" => $country,
@@ -279,13 +281,13 @@ class Congress extends Controller
                     }
                 }
                 break;
-            case self::WORK_TAX:
-            case self::MANAGER_TAX:
+            case LawProposal::TYPE_WORK_TAX:
+            case LawProposal::TYPE_MANAGER_TAX:
                 if ($amount < 0) {
                     throw new AppException(AppException::INVALID_DATA);
                 }
                 break;
-            case self::IMPEACHMENT:
+            case LawProposal::TYPE_IMPEACHMENT:
                 if ($uid < 1) {
                     throw new AppException(AppException::INVALID_DATA);
                 }
@@ -299,7 +301,7 @@ class Congress extends Controller
                     throw new AppException(AppException::INVALID_DATA);
                 }
                 break;
-            case self::TRANSFER_FUNDS:
+            case LawProposal::TYPE_TRANSFER_FUNDS:
                 if ($uid < 1 || empty($currency) || $amount < 0) {
                     throw new AppException(AppException::INVALID_DATA);
                 }
@@ -349,8 +351,8 @@ class Congress extends Controller
 
         switch($lawProposal->type)
         {
-            case self::WORK_TAX:
-            case self::MANAGER_TAX:
+            case LawProposal::TYPE_WORK_TAX:
+            case LawProposal::TYPE_MANAGER_TAX:
                 $tax = Tax::where([
                     "country" => $lawProposal->country,
                     "type" => $lawProposal->type,
@@ -358,33 +360,33 @@ class Congress extends Controller
 
                 $tax->amount = $lawProposal->amount;
                 break;
-            case self::CEASE_FIRE:
+            case LawProposal::TYPE_CEASE_FIRE:
                 CountryRelation::where([
                     "country" => $lawProposal->country,
                     "target" => $lawProposal->target_country,
                     "relation" => CountryRelation::RELATION_ENEMY
                 ])->delete();
                 break;
-            case self::NATURAL_ENEMY:
+            case LawProposal::TYPE_NATURAL_ENEMY:
                 CountryRelation::create([
                     "country" => $lawProposal->country,
                     "target" => $lawProposal->target_country,
                     "relation" => CountryRelation::RELATION_ENEMY
                 ]);
                 break;
-            case self::MUTUAL_PROTECTION_PACT:
+            case LawProposal::TYPE_MUTUAL_PROTECTION_PACT:
                 CountryRelation::create([
                     "country" => $lawProposal->country,
                     "target" => $lawProposal->target_country,
                     "relation" => CountryRelation::RELATION_ALLY
                 ]);
                 break;
-            case self::IMPEACHMENT:
+            case LawProposal::TYPE_IMPEACHMENT:
                 CongressMember::where([
                     "uid" => $lawProposal->member
                 ])->delete();
                 break;
-            case self::TRANSFER_FUNDS:
+            case LawProposal::TYPE_TRANSFER_FUNDS:
                 $countryFunds = CountryFunds::find($lawProposal->country);
 
                 // detect fraud attempts
