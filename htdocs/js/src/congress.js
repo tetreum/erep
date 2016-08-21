@@ -31,11 +31,49 @@ peque.congress = function ()
         $newLawForm.on("submit", function (e)
         {
             e.preventDefault();
+
+            var params = {
+                    type: parseInt($("option:selected", $newLawForm).val()),
+                    reason: $newLawForm.find("input[name=reason]").val()
+                };
+
+            if (params.type < 1 || params.reason.length < 3) {
+                return false;
+            }
+
+            switch (params.type)
+            {
+                case TYPE_NATURAL_ENEMY:
+                case TYPE_MUTUAL_PROTECTION_PACT:
+                case TYPE_CEASE_FIRE:
+                    params.country = $newLawForm.find("select[name=country] option:selected").val();
+                    break;
+                case TYPE_WORK_TAX:
+                case TYPE_MANAGER_TAX:
+                    params.amount = $newLawForm.find("input[name=amount]").val();
+                    break;
+                case TYPE_TRANSFER_FUNDS:
+                    params.amount = $newLawForm.find("input[name=amount]").val();
+                    params.amount = $newLawForm.find("select[name=currency] option:selected").val();
+                    break;
+                case TYPE_IMPEACHMENT:
+                    break;
+            }
+
+            peque.navigation.showConfirm("", function ()
+            {
+                peque.api("congress/law/propose", params, function (data) {
+                    if (data.error > 0) {
+                        return false;
+                    }
+                });
+
+                peque.navigation.redirect("law/" + data.result);
+            });
         });
 
         $newLawForm.find("select[name=type]").on("change", function ()
         {
-
             var type = parseInt($("option:selected", this).val()),
                 $country = $newLawForm.find("select[name=country]"),
                 $amount = $newLawForm.find('[data-id="amount-label"]'),

@@ -46,7 +46,7 @@ class Congress extends Controller
     private function getOwnCountry ()
     {
         if (empty($this->ownCountry)) {
-            $this->ownCountry = App::user()->getPoliticalParty()->country;
+            $this->ownCountry = App::user()->getPoliticalParty()->partyData->country;
         }
 
         return $this->ownCountry;
@@ -326,6 +326,7 @@ class Congress extends Controller
 
         $created = LawProposal::create([
             "uid" => $uid,
+            "type" => $type,
             "country" => $lawsCountry,
             "reason" => $reason,
             "target_country" => $country,
@@ -336,7 +337,11 @@ class Congress extends Controller
             "finished" => false
         ]);
 
-        return ($created == true);
+        if ($created) {
+            return $created->id;
+        }
+
+        throw new AppException(AppException::ACTION_FAILED);
     }
 
     public function applyLaw ($id)

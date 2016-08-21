@@ -141,7 +141,7 @@ $app->group('', function () use ($app, $congressistsOnly)
  * {error: integer, result: mixed}
  * Controller.php#98 will take care of that automatically
  */
-$app->group('/api', function () use ($app)
+$app->group('/api', function () use ($app, $congressistsOnly)
 {
     $app->group('/user', function () use ($app)
     {
@@ -236,7 +236,12 @@ $app->group('/api', function () use ($app)
             $ct = new Congress($app, $response);
             $ct->json('submitApplication');
         });
-    });
+
+        $app->post('/law/propose', function($request, $response, $args) use ($app) {
+            $ct = new Congress($app, $response);
+            $ct->json('proposeLaw');
+        });
+    })->add($congressistsOnly);
 
 })->add($ensureLogged);
 

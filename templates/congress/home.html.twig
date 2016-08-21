@@ -17,7 +17,7 @@
         </select>
         <label>
             Reason:
-            <input type="text" max="300" required>
+            <input name="reason" type="text" max="300" required>
         </label>
         <select name="country" style="display: none">
 
@@ -28,14 +28,14 @@
         </select>
         <label data-id="amount-label" style="display: none">
             Amount
-            <input name="amount" type="number">
+            <input name="amount" type="number" value="0" step="0.01">
         </label>
         <button>Propose</button>
     </form>
 <hr>
     <h2>Latest laws</h2>
     <ul>
-        {% for law in laws %}
+        {% for law in latestLaws %}
         <li>
             <a href="">
                 {{ law.type }}

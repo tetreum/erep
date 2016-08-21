@@ -137,7 +137,7 @@ class Session
      */
     public function getPoliticalParty ()
     {
-        return PartyMember::where([
+        return PartyMember::with("partyData")->where([
             "uid" => App::session()->getUid()
         ])->first();
     }
