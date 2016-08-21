@@ -10,6 +10,7 @@ use App\Models\CountryFunds;
 use App\Models\CountryRelation;
 use App\Models\LawProposal;
 use App\Models\LawVote;
+use App\Models\User;
 use App\Models\UserMoney;
 use App\Models\Region;
 use App\Models\RegionConnection;
@@ -23,9 +24,67 @@ class Congress extends Controller
 {
     private $ownCountry = null;
 
+    private function buildLawPhrase ($law)
+    {
+        switch ($law["type"])
+        {
+            case LawProposal::TYPE_CEASE_FIRE:
+                $phrase = tprintf(_("Cease fire against %country%"), [
+                    "country" => Country::find($law["target_country"])->first()->name
+                ]);
+                break;
+            case LawProposal::TYPE_MUTUAL_PROTECTION_PACT:
+                $phrase = tprintf(_("A mutual protection pact with %country%"), [
+                    "country" => Country::find($law["target_country"])->first()->name
+                ]);
+                break;
+            case LawProposal::TYPE_NATURAL_ENEMY:
+                $phrase = tprintf(_("Set %country% as natural enemy"), [
+                    "country" => Country::find($law["target_country"])->first()->name
+                ]);
+                break;
+            case LawProposal::TYPE_MANAGER_TAX:
+                $phrase = tprintf(_("Set manager tax to %amount% %localCurrency%"), [
+                    "amount" => $law["amount"],
+                    "localCurrency" => strtoupper(Country::find($law["country"])->first()->currency),
+                ]);
+                break;
+            case LawProposal::TYPE_WORK_TAX:
+                $phrase = tprintf(_("Set work tax to %amount% %localCurrency%"), [
+                    "amount" => $law["amount"],
+                    "localCurrency" => strtoupper(Country::find($law["country"])->first()->currency),
+                ]);
+                break;
+            case LawProposal::TYPE_TRANSFER_FUNDS:
+
+                if ($law["currency"] == "local") {
+                    $law["currency"] = strtoupper(Country::find($law["country"])->first()->currency);
+                }
+
+                $phrase = tprintf(_("Transfer %amount% %currency% to %user%"), [
+                    "amount" => $law["amount"],
+                    "currency" => $law["currency"],
+                    "uid" => User::find($law["uid"])->first()->nick,
+                ]);
+                break;
+            case LawProposal::TYPE_IMPEACHMENT:
+                $phrase = tprintf(_("Impeach %user%"), [
+                    "user" => User::find($law["uid"])->first()->nick
+                ]);
+                break;
+            default:
+                throw new \Exception("No phrase for this law type written in buildLawPhrase()");
+                break;
+        }
+
+        return $phrase;
+    }
+
     public function showLawProposal ($id)
     {
         $law = LawProposal::find($id);
+
+        $law->phrase = $this->buildLawPhrase($law);
 
         return $this->render('congress/law_proposal.html.twig', [
             "law" => $law,
@@ -38,6 +97,10 @@ class Congress extends Controller
         $latestLaws = LawProposal::where([
             "country" => $this->getOwnCountry()
         ])->limit(15)->get()->toArray();
+
+        foreach ($latestLaws as &$law) {
+            $law["phrase"] = $this->buildLawPhrase($law);
+        }
 
         return $this->render('congress/home.html.twig', [
             "latestLaws" => $latestLaws,

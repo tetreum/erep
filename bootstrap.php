@@ -23,6 +23,8 @@ App::$slim = $app;
 
 $container = $app->getContainer();
 
+require APP_ROOT. 'i18n.php';
+
 /**
  * Add resources to the app. These resources will be needed at any point throughout the execution.
  */
