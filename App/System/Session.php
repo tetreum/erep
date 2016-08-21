@@ -2,6 +2,7 @@
 
 namespace App\System;
 
+use App\Models\CongressMember;
 use App\Models\PartyMember;
 use App\Models\UserItem;
 use App\Models\UserMoney;
@@ -176,6 +177,13 @@ class Session
         }
 
         return false;
+    }
+
+    public function isCongressist ()
+    {
+        return (CongressMember::where([
+            "uid" => $this->getUid()
+        ])->first() == true);
     }
 
     /**

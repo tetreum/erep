@@ -7,10 +7,20 @@ use \App\Controllers\Congress;
 use \App\Controllers\Market;
 use \App\Controllers\PoliticalParty;
 use \App\Controllers\WorkOffers;
+use \App\System\App as AppController;
 
 $ensureLogged = function($request, $response, $next) use ($app)
 {
     $app->getContainer()->get("session")->ensureLogged();
+
+    return $next($request, $response);
+};
+
+$congressistsOnly = function($request, $response, $next) use ($app)
+{
+    if (!AppController::user()->isCongressist()) {
+        return AppController::container()->get("view")->render($response, "congress/access_restricted.html.twig", []);
+    }
 
     return $next($request, $response);
 };
@@ -46,7 +56,7 @@ $app->post('/signup', function($request, $response, $args) use ($app) {
 });
 
 
-$app->group('', function () use ($app)
+$app->group('', function () use ($app, $congressistsOnly)
 {
     $app->get('/work-offers', function($request, $response, $args) use ($app) {
         $ct = new WorkOffers($app, $response);
@@ -121,7 +131,7 @@ $app->group('', function () use ($app)
             $ct = new Congress($app, $response);
             $ct->exec('showLawProposal', (int)$args["id"]);
         })->setName('congressLaw');
-    });
+    })->add($congressistsOnly);
 
 })->add($ensureLogged);
 

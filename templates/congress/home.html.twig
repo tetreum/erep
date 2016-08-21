@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>Congress</h1>
-    <button data-action="resign">Resign</button>
+    <button data-action="resign" style="float: right;">Resign</button>
 
     Propose a law:
     <form id="propose-law" method="post">
@@ -19,20 +19,20 @@
             Reason:
             <input type="text" max="300" required>
         </label>
-        <select name="country">
+        <select name="country" style="display: none">
 
         </select>
-        <select name="currency">
+        <select name="currency" style="display: none">
             <option value="gold">gold</option>
             <option value="local">local</option>
         </select>
-        <label>
+        <label data-id="amount-label" style="display: none">
             Amount
             <input name="amount" type="number">
         </label>
         <button>Propose</button>
     </form>
-
+<hr>
     <h2>Latest laws</h2>
     <ul>
         {% for law in laws %}

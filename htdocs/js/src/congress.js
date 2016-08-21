@@ -14,7 +14,7 @@ peque.congress = function ()
     {
         $('[data-action=resign]').on("click", function ()
         {
-            peque.navigation.showConfirm("¿Are you sure?", function ()
+            peque.navigation.showConfirm("", function ()
             {
                 peque.api("congress/resign", function (data) {
                     if (data.error > 0) {
@@ -35,10 +35,10 @@ peque.congress = function ()
 
         $newLawForm.find("select[name=type]").on("change", function ()
         {
-            var type = $(this).val();
 
-            var $country = $newLawForm.find("select[name=country]"),
-                $amount = $newLawForm.find("select[name=amount]"),
+            var type = parseInt($("option:selected", this).val()),
+                $country = $newLawForm.find("select[name=country]"),
+                $amount = $newLawForm.find('[data-id="amount-label"]'),
                 $currency = $newLawForm.find("select[name=currency]");
 
             // start hiding everything and the show the required fields of each case

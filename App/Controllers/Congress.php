@@ -36,7 +36,7 @@ class Congress extends Controller
     {
         $latestLaws = LawProposal::where([
             "country" => $this->getOwnCountry()
-        ])->get()->limit(15)->toArray();
+        ])->limit(15)->get()->toArray();
 
         return $this->render('congress/home.html.twig', [
             "latestLaws" => $latestLaws,
