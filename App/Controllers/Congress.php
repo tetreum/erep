@@ -29,6 +29,7 @@ class Congress extends Controller
 
         return $this->render('congress/law_proposal.html.twig', [
             "law" => $law,
+            "isCongressist" => App::user()->isCongressist()
         ]);
     }
 

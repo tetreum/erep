@@ -68,7 +68,7 @@ peque.congress = function ()
                     }
                 });
 
-                peque.navigation.redirect("law/" + data.result);
+                peque.navigation.redirect("congress/law-proposal/" + data.result);
             });
         });
 
@@ -105,7 +105,23 @@ peque.congress = function ()
         });
     };
 
+    var initLawProposal = function () {
+        $('[data-action="vote"]').on("click", function () {
+            var id = $(this).data("id"),
+                inFavor = $(this).data("value");
+
+            if (id < 1) {
+                return false;
+            }
+
+            peque.api("congress/law/vote", {id: id, inFavor:inFavor}, function (data) {
+
+            });
+        });
+    };
+
     return {
-        init: init
+        init: init,
+        initLawProposal: initLawProposal
     };
 }();

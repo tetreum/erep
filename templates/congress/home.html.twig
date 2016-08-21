@@ -37,7 +37,7 @@
     <ul>
         {% for law in latestLaws %}
         <li>
-            <a href="">
+            <a href="{{ path_for('congressLaw', {id : law.id}) }}">
                 {{ law.type }}
             </a>
         </li>

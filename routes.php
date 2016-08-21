@@ -127,7 +127,7 @@ $app->group('', function () use ($app, $congressistsOnly)
             $ct->exec('showHome');
         })->setName('congressHome');
 
-        $app->get('law-proposal/{id}', function($request, $response, $args) use ($app) {
+        $app->get('/law-proposal/{id}', function($request, $response, $args) use ($app) {
             $ct = new Congress($app, $response);
             $ct->exec('showLawProposal', (int)$args["id"]);
         })->setName('congressLaw');
@@ -240,6 +240,11 @@ $app->group('/api', function () use ($app, $congressistsOnly)
         $app->post('/law/propose', function($request, $response, $args) use ($app) {
             $ct = new Congress($app, $response);
             $ct->json('proposeLaw');
+        });
+
+        $app->post('/law/vote', function($request, $response, $args) use ($app) {
+            $ct = new Congress($app, $response);
+            $ct->json('voteLaw');
         });
     })->add($congressistsOnly);
 

@@ -1,0 +1,44 @@
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+    <style>
+        .vote-count {
+            display: inline-block;
+            padding: 10px;
+            border: 1px solid grey;
+            text-align: center;
+        }
+        .vote-count div {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+    </style>
+<h1>{% trans %}Law proposal{% endtrans %}</h1>
+
+
+<div class="vote-count">
+    <div>{{ law.no }}</div>
+    <button data-action="vote" data-value="false" data-id="{{ law.id }}" {% if not isCongressist %}disabled{% endif %}>{% trans %}NO{% endtrans %}</button>
+</div>
+
+<div class="vote-count">
+    <div>{{ law.yes }}</div>
+    <button data-action="vote" data-value="true" data-id="{{ law.id }}" {% if not isCongressist %}disabled{% endif %}>{% trans %}YES{% endtrans %}</button>
+</div>
+<br>
+<br>
+<p>Total votes: {{ law.yes+law.no }} / {{ law.expected_votes }}</p>
+
+{% if not isCongressist %}
+    {% trans %}Only congress members and country presidents have the right to vote.{% endtrans %}
+{% endif %}
+
+
+{% endblock %}
+{% block bottomJS %}
+    <script>
+        $(function () {
+            peque.congress.initLawProposal();
+        });
+    </script>
+{% endblock %}
