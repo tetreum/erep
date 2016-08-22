@@ -5,7 +5,10 @@ require "../bootstrap.php";
 use \App\Models\LawProposal;
 use \App\Controllers\Congress;
 
-// THIS CRON FINISHES LAW PROPOSALS
+/**
+ * THIS CRON FINISHES LAW PROPOSALS
+ * RUN IT DAILY
+ */
 
 $proposals = LawProposal::where([
     "finished" => false,

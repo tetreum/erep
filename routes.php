@@ -7,6 +7,10 @@ use \App\Controllers\Congress;
 use \App\Controllers\Market;
 use \App\Controllers\PoliticalParty;
 use \App\Controllers\WorkOffers;
+use \App\Controllers\PrivateMessage;
+use \App\Controllers\Newspaper;
+use \App\Controllers\Chat;
+use \App\Controllers\Militia;
 use \App\System\App as AppController;
 
 $ensureLogged = function($request, $response, $next) use ($app)
@@ -100,6 +104,37 @@ $app->group('', function () use ($app, $congressistsOnly)
             $ct = new Market($app, $response);
             $ct->exec('showItemOffers', $args["item"], $args["quality"]);
         });
+    });
+
+    $app->group('news', function () use ($app, $congressistsOnly)
+    {
+        $app->get('', function($request, $response, $args) use ($app) {
+            $ct = new Newspaper($app, $response);
+            $ct->exec('showHome');
+        })->setName('news');
+
+        $app->get('/create-newspaper', function($request, $response, $args) use ($app) {
+            $ct = new Newspaper($app, $response);
+            $ct->exec('showCreateForm');
+        })->setName('createNewspaper');
+
+        $app->get('/create', function($request, $response, $args) use ($app) {
+            $ct = new Newspaper($app, $response);
+            $ct->exec('showCreateArticle');
+        })->setName('createArticle');
+    });
+
+    $app->group('inbox', function () use ($app, $congressistsOnly)
+    {
+        $app->get('', function($request, $response, $args) use ($app) {
+            $ct = new PrivateMessage($app, $response);
+            $ct->exec('showInbox');
+        })->setName('inbox');
+
+        $app->get('/conversation/:uid', function($request, $response, $args) use ($app) {
+            $ct = new PrivateMessage($app, $response);
+            $ct->exec('showConversation', $args["uid"]);
+        })->setName('privateConversation');
     });
 
     $app->group('/party', function () use ($app)
@@ -247,6 +282,101 @@ $app->group('/api', function () use ($app, $congressistsOnly)
             $ct->json('voteLaw');
         });
     })->add($congressistsOnly);
+
+    $app->group('/pm', function () use ($app)
+    {
+        $app->post('/send', function($request, $response, $args) use ($app) {
+            $ct = new PrivateMessage($app, $response);
+            $ct->json('sendMessage');
+        });
+    });
+
+    $app->group('/militia', function () use ($app)
+    {
+        $app->post('/create', function($request, $response, $args) use ($app) {
+            $ct = new Militia($app, $response);
+            $ct->json('create');
+        });
+
+        $app->post('/join', function($request, $response, $args) use ($app) {
+            $ct = new Militia($app, $response);
+            $ct->json('join');
+        });
+
+        $app->post('/leave', function($request, $response, $args) use ($app) {
+            $ct = new Militia($app, $response);
+            $ct->json('leave');
+        });
+    });
+
+    $app->group('/newspaper', function () use ($app)
+    {
+        $app->post('/create', function($request, $response, $args) use ($app) {
+            $ct = new Newspaper($app, $response);
+            $ct->json('create');
+        });
+
+        $app->post('/delete', function($request, $response, $args) use ($app) {
+            $ct = new Newspaper($app, $response);
+            $ct->json('delete');
+        });
+
+        $app->post('/edit', function($request, $response, $args) use ($app) {
+            $ct = new Newspaper($app, $response);
+            $ct->json('edit');
+        });
+    });
+
+    $app->group('/chat', function () use ($app)
+    {
+        $app->get('/get', function($request, $response, $args) use ($app) {
+            $ct = new Chat($app, $response);
+            $ct->json('showMessages');
+        });
+
+        $app->post('/post', function($request, $response, $args) use ($app) {
+            $ct = new Chat($app, $response);
+            $ct->json('postMessage');
+        });
+
+        $app->post('/vote', function($request, $response, $args) use ($app) {
+            $ct = new Chat($app, $response);
+            $ct->json('vote');
+        });
+
+        $app->post('/delete', function($request, $response, $args) use ($app) {
+            $ct = new Chat($app, $response);
+            $ct->json('delete');
+        });
+    });
+
+    $app->group('/article', function () use ($app)
+    {
+        $app->post('/create', function($request, $response, $args) use ($app) {
+            $ct = new Newspaper($app, $response);
+            $ct->json('createArticle');
+        });
+
+        $app->post('/update', function($request, $response, $args) use ($app) {
+            $ct = new Newspaper($app, $response);
+            $ct->json('updateArticle');
+        });
+
+        $app->post('/delete', function($request, $response, $args) use ($app) {
+            $ct = new Newspaper($app, $response);
+            $ct->json('deleteArticle');
+        });
+
+        $app->post('/vote', function($request, $response, $args) use ($app) {
+            $ct = new Newspaper($app, $response);
+            $ct->json('voteArticle');
+        });
+
+        $app->post('/comment', function($request, $response, $args) use ($app) {
+            $ct = new Newspaper($app, $response);
+            $ct->json('comment');
+        });
+    });
 
 })->add($ensureLogged);
 

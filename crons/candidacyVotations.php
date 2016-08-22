@@ -6,7 +6,10 @@ use \App\Models\CongressCandidate;
 use \App\Models\CongressMember;
 use \App\Models\CandidateVote;
 
-// THIS CRON FINISHES OLD CANDIDACY VOTATIONS
+/**
+ * THIS CRON FINISHES OLD CANDIDACY VOTATIONS
+ * RUN IT DAILY
+ */
 
 $candidacies = CongressCandidate::where([
     "created_at", "<=", ""
