@@ -3,6 +3,7 @@
 namespace App\System;
 
 use App\Models\CongressMember;
+use App\Models\MilitiaMember;
 use App\Models\PartyMember;
 use App\Models\UserItem;
 use App\Models\UserMoney;
@@ -138,6 +139,16 @@ class Session
     public function getPoliticalParty ()
     {
         return PartyMember::with("partyData")->where([
+            "uid" => App::session()->getUid()
+        ])->first();
+    }
+
+    /**
+     * @return MilitiaMember
+     */
+    public function getMilitia ()
+    {
+        return MilitiaMember::with("militiaData")->where([
             "uid" => App::session()->getUid()
         ])->first();
     }
