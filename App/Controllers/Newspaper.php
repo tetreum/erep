@@ -261,7 +261,7 @@ class Newspaper extends Controller
             "uid" => App::user()->getUid()
         ];
 
-        $hasAlreadyVoted = ArticleVote::where($query);
+        $hasAlreadyVoted = ArticleVote::where($query)->first();
 
         if ($hasAlreadyVoted) {
             throw new AppException(AppException::INVALID_DATA);

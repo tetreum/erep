@@ -29,6 +29,9 @@
                 {% if latestArticles|length > 0 %}
                     {% for article in latestArticles %}
                         <div>
+                            <div class="vote-container">
+                                <h1>{{ article.votes }}</h1>
+                            </div>
                             <a href="{{ path_for('showArticle', {id: article.id}) }}">
                                 {{ article.title }}
                             </a>

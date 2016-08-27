@@ -12,6 +12,24 @@ peque.news = function ()
             width: '90%',
             style: "/css/lib/jquery.sceditor.default.min.css"
         });
+
+        $('.vote-container button').on("click", function () {
+            var id = parseInt($(this).data("id"));
+
+            if (id < 1) {
+                return false;
+            }
+
+            peque.api("article/vote", {id: id}, function (data) {
+                if (data.error > 0) {
+                    return false;
+                }
+
+                var $count = $('.vote-container h1');
+
+                $count.text(parseInt($count.text() + 1));
+            });
+        });
     };
 
     var initArticleForm = function ()
