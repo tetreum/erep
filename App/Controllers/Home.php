@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\NewspaperArticle;
 use App\Models\UserGym;
 use App\System\App;
 use App\System\AppException;
@@ -39,10 +40,15 @@ class Home extends Controller
             "uid" => App::user()->getUid()
         ])->first();
 
+        $latestArticles = NewspaperArticle::where([
+            "country" => App::user()->getLocation()["country"]["id"]
+        ])->limit(5)->get();
+
 
         return $this->render('home.html.twig', [
             "job" => $jobData,
-            "hasTrainedToday" => $userGyms->hasTrainedToday(1)
+            "hasTrainedToday" => $userGyms->hasTrainedToday(1),
+            "latestArticles" => $latestArticles
         ]);
     }
 }

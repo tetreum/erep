@@ -35,7 +35,7 @@ class Militia extends Controller
         $success = MilitiaModel::create([
             "name" => $name,
             "description" => $description,
-            "country" => App::user()->getLocation()->country->id,
+            "country" => App::user()->getLocation()["country"]["id"],
             "uid" => $uid
         ]);
 

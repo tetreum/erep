@@ -1,0 +1,26 @@
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+    <h1>Write article</h1>
+
+    <form id="article-creation-form" method="post">
+        <label>Title: <input name="title" type="text" required></label>
+
+        <label>
+            Category:
+            <select name="category">
+                <option></option>
+            </select>
+        </label>
+
+        <button>Publish</button>
+    </form>
+{% endblock %}
+
+{% block bottomJS %}
+    <script>
+        $(function () {
+            peque.news.initArticleForm();
+        });
+    </script>
+{% endblock %}

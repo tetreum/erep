@@ -1,0 +1,22 @@
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+    <h1>{{ newspaper.name }}</h1>
+    <a href="{{ path_for('createArticle') }}" class="button">Write article</a>
+
+    {% for article in articles %}
+        <div>
+            <a href="{{ path_for('showArticle', {id: article.id}) }}">
+                {{ article.title }}
+            </a>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block bottomJS %}
+    <script>
+        $(function () {
+            peque.news.initCreationForm();
+        });
+    </script>
+{% endblock %}

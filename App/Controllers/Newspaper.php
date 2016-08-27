@@ -14,6 +14,61 @@ use App\System\Input;
 
 class Newspaper extends Controller
 {
+    public function showCreateForm ()
+    {
+        // only 1 newspaper per user is allowed
+        $newsPaper = NewspaperModel::where([
+            "uid" => App::user()->getUid()
+        ])->first();
+
+        if ($newsPaper) {
+            App::redirect("/newspaper/" . $newsPaper->id);
+        }
+
+        return $this->render('news/createNewspaper.html.twig', [
+            "creationCost" => NewspaperModel::CREATION_COST
+        ]);
+    }
+
+    public function showNewspaper ($id)
+    {
+        $newsPaper = NewspaperModel::find($id);
+
+        if (empty($newsPaper)) {
+            throw new AppException(AppException::INVALID_DATA);
+        }
+
+        $articles = NewspaperArticle::where([
+            "uid" => $newsPaper->uid
+        ])->get();
+
+        if (empty($articles)) {
+            $articles = [];
+        } else {
+            $articles = $articles->toArray();
+        }
+
+        return $this->render('news/newspaperProfile.html.twig', [
+            "newspaper" => $newsPaper->toArray(),
+            "articles" => $articles
+        ]);
+    }
+
+    public function showCreateArticle ()
+    {
+        // ensure that he has a newspaper
+        $newsPaper = NewspaperModel::where([
+            "uid" => App::user()->getUid()
+        ])->first();
+
+        if (empty($newsPaper)) {
+            throw new AppException(AppException::INVALID_DATA);
+        }
+
+        return $this->render('news/create.html.twig', [
+        ]);
+    }
+
     public function comment ()
     {
         $channelId = Input::getInteger("channelId");
@@ -101,7 +156,7 @@ class Newspaper extends Controller
 
         $articles = NewspaperArticle::with("newspaper")->where([
             "category" => $category,
-            "country" => App::user()->getLocation()->country->id
+            "country" => App::user()->getLocation()["country"]["id"]
         ])->get();
 
         if ($articles) {
@@ -124,7 +179,7 @@ class Newspaper extends Controller
         }
 
         // only 1 newspaper per user is allowed
-        $newsPaper = Newspaper::where([
+        $newsPaper = NewspaperModel::where([
             "uid" => $uid
         ])->first();
 
@@ -134,10 +189,11 @@ class Newspaper extends Controller
 
         App::user()->buy(NewspaperModel::CREATION_COST, "gold", "NEWSPAPER");
 
-        $success = Newspaper::create([
+
+        $success = NewspaperModel::create([
             "name" => $name,
             "description" => $description,
-            "country" => App::user()->getLocation()->country->id,
+            "country" => App::user()->getLocation()["country"]["id"],
             "uid" => $uid
         ]);
 

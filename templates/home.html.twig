@@ -20,5 +20,24 @@
                 <a class="button" href="{{ path_for('workOffers') }}">¡Find a job!</a>
             </div>
         {% endif %}
+
+        <div>
+            <div>
+                <h2>Latest news</h2>
+            </div>
+            <div>
+                {% if latestArticles|length > 0 %}
+                    {% for article in latestArticles %}
+                        <div>
+                            <a href="{{ path_for('showArticle', {id: article.id}) }}">
+                                {{ article.title }}
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No news available. <a href="{{ path_for('createNewspaper') }}">¡Create your own newspaper!</a></p>
+                {% endif %}
+            </div>
+        </div>
     </div>
 {% endblock %}

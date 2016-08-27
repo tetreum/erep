@@ -106,17 +106,17 @@ $app->group('', function () use ($app, $congressistsOnly)
         });
     });
 
-    $app->group('news', function () use ($app, $congressistsOnly)
+    $app->group('/news', function () use ($app)
     {
         $app->get('', function($request, $response, $args) use ($app) {
             $ct = new Newspaper($app, $response);
             $ct->exec('showHome');
         })->setName('news');
 
-        $app->get('/create-newspaper', function($request, $response, $args) use ($app) {
+        $app->get('/article/{id}', function($request, $response, $args) use ($app) {
             $ct = new Newspaper($app, $response);
-            $ct->exec('showCreateForm');
-        })->setName('createNewspaper');
+            $ct->exec('showArticle');
+        })->setName('showArticle');
 
         $app->get('/create', function($request, $response, $args) use ($app) {
             $ct = new Newspaper($app, $response);
@@ -124,7 +124,20 @@ $app->group('', function () use ($app, $congressistsOnly)
         })->setName('createArticle');
     });
 
-    $app->group('inbox', function () use ($app, $congressistsOnly)
+    $app->group('/newspaper', function () use ($app)
+    {
+        $app->get('/create', function($request, $response, $args) use ($app) {
+            $ct = new Newspaper($app, $response);
+            $ct->exec('showCreateForm');
+        })->setName('createNewspaper');
+
+        $app->get('/{id}', function($request, $response, $args) use ($app) {
+            $ct = new Newspaper($app, $response);
+            $ct->exec('showNewspaper', $args["id"]);
+        })->setName('showNewspaper');
+    });
+
+    $app->group('/inbox', function () use ($app)
     {
         $app->get('', function($request, $response, $args) use ($app) {
             $ct = new PrivateMessage($app, $response);

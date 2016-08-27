@@ -1,0 +1,26 @@
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+    <h1>{% trans %}Create Newspaper{% endtrans %}</h1>
+
+    <form id="newspaper-creation-form" method="post">
+        <label>
+            {% trans %}Name{% endtrans %}: <input type="text" name="name" required>
+        </label>
+
+        <label>
+            {% trans %}Small description{% endtrans %}:<br>
+            <textarea name="description" required></textarea>
+        </label>
+
+        <button>{% trans %}Create for{% endtrans %} {{ creationCost }} <img class="icon small" src="/img/icons/gold.png"></button>
+    </form>
+{% endblock %}
+
+{% block bottomJS %}
+    <script>
+        $(function () {
+            peque.news.initCreationForm();
+        });
+    </script>
+{% endblock %}
