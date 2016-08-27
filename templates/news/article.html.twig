@@ -1,0 +1,27 @@
+{% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
+
+{% block content %}
+    <div id="article-page">
+        <div class="vote-container">
+            <h1>{{ article.votes }}</h1>
+            <button>Vote</button>
+        </div>
+        <h1 class="title">{{ article.title }}</h1>
+
+        <textarea name="text" style="height: 100vh;">{{ article.text }}</textarea>
+
+        <div>
+            <a>{{ article.creator.nick }}</a>
+            - {{ article.created_at }}
+        </div>
+    </div>
+    <div>
+{% endblock %}
+
+{% block bottomJS %}
+    <script>
+        $(function () {
+            peque.news.initArticle();
+        });
+    </script>
+{% endblock %}

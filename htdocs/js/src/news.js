@@ -2,8 +2,28 @@ peque.news = function ()
 {
     'use strict';
 
+    var initArticle = function ()
+    {
+        $("textarea[name=text]").sceditor({
+            plugins: "bbcode",
+            readOnly: true,
+            toolbar: '',
+            emoticonsEnabled: false,
+            width: '90%',
+            style: "/css/lib/jquery.sceditor.default.min.css"
+        });
+    };
+
     var initArticleForm = function ()
     {
+        $("textarea[name=text]").sceditor({
+            plugins: "bbcode",
+            toolbar: 'bold,italic,underline,strike|left,center,right,justify|size,color,removeformat,pastetext|bulletlist,orderedlist|quote,image,youtube,link,unlink|maximize,source',
+            emoticonsEnabled: false,
+            width: '90%',
+            style: "/css/lib/jquery.sceditor.default.min.css"
+        });
+
         $('#article-creation-form').on("submit", function (e) {
             e.preventDefault();
 
@@ -15,7 +35,7 @@ peque.news = function ()
                 return false;
             }
 
-            peque.api("news/create", {title: title, text: text, category: category}, function (data) {
+            peque.api("article/create", {title: title, text: text, category: category}, function (data) {
                 if (data.error > 0) {
                     return false;
                 }
@@ -48,6 +68,7 @@ peque.news = function ()
     };
 
     return {
+        initArticle: initArticle,
         initCreationForm: initCreationForm,
         initArticleForm: initArticleForm
     };

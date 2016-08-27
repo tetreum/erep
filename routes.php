@@ -115,7 +115,7 @@ $app->group('', function () use ($app, $congressistsOnly)
 
         $app->get('/article/{id}', function($request, $response, $args) use ($app) {
             $ct = new Newspaper($app, $response);
-            $ct->exec('showArticle');
+            $ct->exec('showArticle', $args["id"]);
         })->setName('showArticle');
 
         $app->get('/create', function($request, $response, $args) use ($app) {
@@ -367,7 +367,7 @@ $app->group('/api', function () use ($app, $congressistsOnly)
     {
         $app->post('/create', function($request, $response, $args) use ($app) {
             $ct = new Newspaper($app, $response);
-            $ct->json('createArticle');
+            $ct->json('publishArticle');
         });
 
         $app->post('/update', function($request, $response, $args) use ($app) {

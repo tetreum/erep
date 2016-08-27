@@ -10,6 +10,7 @@ class NewspaperArticle extends Model
     const CATEGORY_ECONOMICS = 2;
     const CATEGORY_SOCIAL = 3;
 
+    // if you edit this, edit templates/news/create.html.twig too
     public static $validCategories = [
         self::CATEGORY_WAR,
         self::CATEGORY_ECONOMICS,

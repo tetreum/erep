@@ -17,12 +17,10 @@ class Newspaper extends Controller
     public function showCreateForm ()
     {
         // only 1 newspaper per user is allowed
-        $newsPaper = NewspaperModel::where([
-            "uid" => App::user()->getUid()
-        ])->first();
+        $myNewspaper = App::user()->getNewspaper();
 
-        if ($newsPaper) {
-            App::redirect("/newspaper/" . $newsPaper->id);
+        if (!empty($myNewspaper)) {
+            App::redirect("/newspaper/" . $myNewspaper->id);
         }
 
         return $this->render('news/createNewspaper.html.twig', [
@@ -57,16 +55,11 @@ class Newspaper extends Controller
     public function showCreateArticle ()
     {
         // ensure that he has a newspaper
-        $newsPaper = NewspaperModel::where([
-            "uid" => App::user()->getUid()
-        ])->first();
-
-        if (empty($newsPaper)) {
+        if (empty(App::user()->getNewspaper())) {
             throw new AppException(AppException::INVALID_DATA);
         }
 
-        return $this->render('news/create.html.twig', [
-        ]);
+        return $this->render('news/create.html.twig');
     }
 
     public function comment ()
@@ -204,10 +197,8 @@ class Newspaper extends Controller
         throw new AppException(AppException::ACTION_FAILED);
     }
 
-    public function viewArticle ()
+    public function showArticle ($id)
     {
-        $id = Input::getInteger("id");
-
         if ($id < 1) {
             throw new AppException(AppException::INVALID_DATA);
         }
@@ -221,7 +212,9 @@ class Newspaper extends Controller
         $article->views++;
         $article->save();
 
-        //$article->toArray();
+        return $this->render('news/article.html.twig', [
+            "article" => $article->toArray()
+        ]);
     }
 
     public function publishArticle ()
@@ -244,6 +237,7 @@ class Newspaper extends Controller
             "title" => $title,
             "text" => $text,
             "category" => $category,
+            "uid" => App::user()->getUid(),
             "country" => $myNewspaper->country
         ]);
 

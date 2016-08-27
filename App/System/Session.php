@@ -4,6 +4,7 @@ namespace App\System;
 
 use App\Models\CongressMember;
 use App\Models\MilitiaMember;
+use App\Models\Newspaper;
 use App\Models\PartyMember;
 use App\Models\UserItem;
 use App\Models\UserMoney;
@@ -149,6 +150,16 @@ class Session
     public function getMilitia ()
     {
         return MilitiaMember::with("militiaData")->where([
+            "uid" => App::session()->getUid()
+        ])->first();
+    }
+
+    /**
+     * @return Newspaper
+     */
+    public function getNewspaper ()
+    {
+        return Newspaper::where([
             "uid" => App::session()->getUid()
         ])->first();
     }

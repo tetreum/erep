@@ -43,6 +43,10 @@ peque.navigation = function ()
      */
     var browse = function (path)
     {
+        if (path == "#") {
+            return;
+        }
+
         history.pushState({}, path, path);
 
         peque.navigation.get(path, function (html) {

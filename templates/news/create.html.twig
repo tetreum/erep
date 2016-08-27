@@ -9,9 +9,14 @@
         <label>
             Category:
             <select name="category">
-                <option></option>
+                {# If you edit this, edit Models/NewspaperArticle too #}
+                <option value="1">War</option>
+                <option value="2">Economics</option>
+                <option value="3">Social</option>
             </select>
         </label>
+
+        <textarea name="text" style="height: 70vh;"></textarea>
 
         <button>Publish</button>
     </form>
