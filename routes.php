@@ -342,14 +342,14 @@ $app->group('/api', function () use ($app, $congressistsOnly)
 
     $app->group('/chat', function () use ($app)
     {
-        $app->get('/get', function($request, $response, $args) use ($app) {
+        $app->post('/list', function($request, $response, $args) use ($app) {
             $ct = new Chat($app, $response);
             $ct->json('showMessages');
         });
 
         $app->post('/post', function($request, $response, $args) use ($app) {
             $ct = new Chat($app, $response);
-            $ct->json('postMessage');
+            $ct->json('writeMessage');
         });
 
         $app->post('/vote', function($request, $response, $args) use ($app) {

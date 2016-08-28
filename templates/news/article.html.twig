@@ -6,6 +6,9 @@
             <h1>{{ article.votes }}</h1>
             <button data-id="{{ article.id }}">Vote</button>
         </div>
+        {% if article.creator.id == my.id %}
+        <button data-action="edit">Edit</button>
+        {% endif %}
         <h1 class="title">{{ article.title }}</h1>
 
         <textarea name="text" style="height: 100vh;">{{ article.text }}</textarea>

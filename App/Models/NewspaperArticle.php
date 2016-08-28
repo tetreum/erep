@@ -18,4 +18,12 @@ class NewspaperArticle extends Model
     ];
 
     protected $fillable = ["title", "text", "category", "uid", "country", "views", "votes"];
+
+    public function creator() {
+        return $this->hasOne('App\Models\User', 'id', 'uid');
+    }
+
+    public function country() {
+        return $this->hasOne('App\Models\Country', 'id', 'country');
+    }
 }

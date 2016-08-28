@@ -44,10 +44,17 @@ class Home extends Controller
             "country" => App::user()->getLocation()["country"]["id"]
         ])->limit(5)->get();
 
+        $hasPoliticalParty = false;
+
+        if (App::user()->getPoliticalParty()) {
+            $hasPoliticalParty = true;
+        }
+
 
         return $this->render('home.html.twig', [
             "job" => $jobData,
             "hasTrainedToday" => $userGyms->hasTrainedToday(1),
+            "hasPoliticalParty" => $hasPoliticalParty,
             "latestArticles" => $latestArticles
         ]);
     }

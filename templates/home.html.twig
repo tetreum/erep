@@ -42,5 +42,48 @@
                 {% endif %}
             </div>
         </div>
+        <div id="chat-container">
+            <div>
+                <h2>Chat</h2>
+                <ul id="chat-channels">
+                    <li data-channel="1">World</li>
+                    <li data-channel="2">{{ my.location.country.name}}</li>
+                    {% if hasPoliticalParty %}
+                        <li data-channel="3">Political party</li>
+                    {% endif %}
+                    {% if hasMilitia %}
+                        <li data-channel="4">Militia</li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div>
+                <div class="textarea-container">
+                    <textarea name="message"></textarea>
+                    <button data-action="post">Send</button>
+                </div>
+                <div id="chat-messages-container">
+
+                </div>
+            </div>
+        </div>
     </div>
+    <template id="tpl-chat-message">
+        <div class="chat-message">
+            <div class="avatar-container">
+                <img class="avatar" src="/img/default_avatar.jpg">
+            </div>
+            <div class="message-body">
+                <strong></strong>
+                <div data-id="message"></div>
+            </div>
+            <span data-id="likes-count">0</span> Likes - <span><span data-id="replies-count">0</span> Replies</span>
+        </div>
+    </template>
+{% endblock %}
+{% block bottomJS %}
+    <script>
+        $(function () {
+            peque.chat.init(2);
+        });
+    </script>
 {% endblock %}

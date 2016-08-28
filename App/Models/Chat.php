@@ -24,4 +24,8 @@ class Chat extends Model
     ];
 
     protected $fillable = ["message", "sender", "channel_id", "channel_type", "likes"];
+
+    public function sender() {
+        return $this->hasOne('App\Models\User', 'id', 'sender');
+    }
 }

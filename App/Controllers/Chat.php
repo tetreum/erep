@@ -36,11 +36,17 @@ class Chat extends Controller
         $channelType = Input::getInteger("channelType");
         $message = Input::getString("message", true);
 
-        if ($channelId < 1 || !in_array($channelType, ChatModel::$validTypes) || strlen($message) < 10) {
+        if (!in_array($channelType, ChatModel::$validTypes) || strlen($message) < 10) {
             throw new AppException(AppException::INVALID_DATA);
         }
 
-        $this->checkChannelPermissions($channelType);
+        if ($channelType == ChatModel::CHANNEL_TYPE_REPLY) {
+            if ($channelId < 1) {
+                throw new AppException(AppException::INVALID_DATA);
+            }
+        } else {
+            $channelId = $this->getChannelId($channelType);
+        }
 
         $success = ChatModel::create([
             "channel_id" => $channelId,
@@ -50,30 +56,38 @@ class Chat extends Controller
         ]);
 
         if ($success) {
-            return $success->id;
+            return $success->toArray();
         }
 
         throw new AppException(AppException::ACTION_FAILED);
     }
 
-    private function checkChannelPermissions ($channelType)
+    private function getChannelId ($channelType)
     {
         // ensure that he can see this channel
         switch ($channelType)
         {
+            case ChatModel::CHANNEL_TYPE_COUNTRY:
+                return App::user()->getLocation()["country"]["id"];
+            case ChatModel::CHANNEL_TYPE_WORLD:
+                return 1;
             case ChatModel::CHANNEL_TYPE_POLITICAL_PARTY:
                 $myParty = App::user()->getPoliticalParty();
 
                 if (!$myParty) {
                     throw new AppException(AppException::INVALID_DATA);
                 }
-                break;
+
+                return $myParty->id;
             case ChatModel::CHANNEL_TYPE_MILITIA:
                 $myMilitia = App::user()->getMilitia();
 
                 if (!$myMilitia) {
                     throw new AppException(AppException::INVALID_DATA);
                 }
+                return $myMilitia->id;
+            default:
+                throw new AppException(AppException::INVALID_DATA);
                 break;
         }
     }
@@ -83,16 +97,22 @@ class Chat extends Controller
         $channelId = Input::getInteger("channelId");
         $channelType = Input::getInteger("channelType");
 
-        if ($channelId < 1 || !in_array($channelType, ChatModel::$validTypes)) {
+        if (!in_array($channelType, ChatModel::$validTypes)) {
             throw new AppException(AppException::INVALID_DATA);
         }
 
-        $this->checkChannelPermissions($channelType);
+        if ($channelType == ChatModel::CHANNEL_TYPE_REPLY) {
+            if ($channelId < 1) {
+                throw new AppException(AppException::INVALID_DATA);
+            }
+        } else {
+            $channelId = $this->getChannelId($channelType);
+        }
 
-        $messages = ChatModel::where([
+        $messages = ChatModel::with("sender")->where([
             "channel_id" => $channelId,
             "channel_type" => $channelType
-        ])->get(); //@todo order by
+        ])->orderBy('id', 'DESC')->get();
 
         if (!$messages) {
             $messages = [];

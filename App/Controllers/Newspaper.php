@@ -203,7 +203,7 @@ class Newspaper extends Controller
             throw new AppException(AppException::INVALID_DATA);
         }
 
-        $article = NewspaperArticle::find($id);
+        $article = NewspaperArticle::with("creator")->find($id);
 
         if (!$article) {
             throw new AppException(AppException::INVALID_DATA);
