@@ -7,6 +7,10 @@ eRepublik clone
 - mv conf.sample.php conf.php
 - grunt
 
+# Requirements
+- PHP >= 7.0
+- MySQL
+
 # Finished features
 - Chat
 - Create & work on companies
