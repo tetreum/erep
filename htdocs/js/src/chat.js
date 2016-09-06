@@ -11,11 +11,12 @@ peque.chat = function ()
         $('#chat-channels li').on("click", changeChannel);
 
         $('#chat-channels li[data-channel=' + defaultChannel + ']').click();
+
+        $chatContainer.find('[data-action=post]').on("click", post);
     };
 
     var initMessageListeners = function ()
     {
-        $chatContainer.find('[data-action=post]').on("click", post);
         $chatContainer.find('[data-action=vote]').on("click", vote);
         $chatContainer.find('[data-action=show-comments]').on("click", showComments);
     };

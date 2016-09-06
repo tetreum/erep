@@ -1,6 +1,8 @@
 {% extends isAjax ? "common/ajaxbase.html.twig" : "common/base.html.twig" %}
 
 {% block content %}
+    <h1>Create company</h1>
+    <br><br>
     {% for sectorName, sector in sectors %}
         <h1>{{ sectorName }} sector</h1>
 
