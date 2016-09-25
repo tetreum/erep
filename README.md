@@ -6,6 +6,7 @@ eRepublik clone
 - npm install
 - mv conf.sample.php conf.php
 - grunt
+- import db.sql in your mysql
 
 # Requirements
 - PHP >= 7.0
