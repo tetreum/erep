@@ -37,6 +37,38 @@ Reminder: I don't care about the design, i've only made the backend.
 # Requirements
 - PHP >= 7.0
 - MySQL
+- Friendly urls/mod rewrite
+
+# Nginx setup example
+```
+server {
+    listen   80;
+    server_name erepublik.dev;
+
+    root /var/www/erepublik/htdocs;
+    index index.html index.htm index.php;
+
+    charset utf-8;
+    sendfile off;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    ## The "application" requests should be processed by Slim
+    location ~ \.php$ {
+                try_files $uri =404;
+                fastcgi_split_path_info ^(.+\.php)(/.+)$;
+                # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+
+                # With php5-fpm:
+                fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+                fastcgi_index index.php;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                include fastcgi_params;
+    }
+}
+```
 
 
 
