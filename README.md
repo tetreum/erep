@@ -38,6 +38,7 @@ Reminder: I don't care about the design, i've only made the backend.
 - PHP >= 7.0
 - MySQL
 - Friendly urls/mod rewrite
+- gruntjs
 
 # Nginx setup example
 ```
